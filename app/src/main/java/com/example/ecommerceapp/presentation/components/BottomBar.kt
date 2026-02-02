@@ -16,11 +16,13 @@ import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -48,7 +50,10 @@ fun BottomBar(
             ) {
 
                 IconButton(
-                    onClick = { TODO() }
+                    onClick = { TODO() },
+                    colors = IconButtonDefaults.iconButtonColors(
+                        contentColor = Color.Gray
+                    )
                 ) {
 
 
@@ -61,6 +66,7 @@ fun BottomBar(
                 Text(
                     text = "Inicio",
                     fontSize = 12.sp,
+                    color = Color.Gray
                 )
 
             }
@@ -70,7 +76,10 @@ fun BottomBar(
             ) {
 
                 IconButton(
-                    onClick = { TODO() }
+                    onClick = { TODO() },
+                    colors = IconButtonDefaults.iconButtonColors(
+                        contentColor = Color.Gray
+                    )
                 ) {
 
 
@@ -83,6 +92,7 @@ fun BottomBar(
                 Text(
                     text = "Carrinho",
                     fontSize = 12.sp,
+                    color = Color.Gray
                 )
 
             }
@@ -92,7 +102,10 @@ fun BottomBar(
             ) {
 
                 IconButton(
-                    onClick = { TODO() }
+                    onClick = { TODO() },
+                    colors = IconButtonDefaults.iconButtonColors(
+                        contentColor = Color.Gray
+                    )
                 ) {
 
 
@@ -105,6 +118,8 @@ fun BottomBar(
                 Text(
                     text = "Pedidos",
                     fontSize = 12.sp,
+                    color = Color.Gray
+
                 )
 
             }
@@ -114,7 +129,10 @@ fun BottomBar(
             ) {
 
                 IconButton(
-                    onClick = { TODO() }
+                    onClick = { TODO() },
+                    colors = IconButtonDefaults.iconButtonColors(
+                        contentColor = Color.Gray
+                    )
                 ) {
 
 
@@ -127,6 +145,8 @@ fun BottomBar(
                 Text(
                     text = "Recarga",
                     fontSize = 12.sp,
+                    color = Color.Gray
+
                 )
 
             }
@@ -136,7 +156,10 @@ fun BottomBar(
             ) {
 
                 IconButton(
-                    onClick = { TODO() }
+                    onClick = { TODO() },
+                    colors = IconButtonDefaults.iconButtonColors(
+                        contentColor = Color.Gray
+                    )
                 ) {
 
 
@@ -149,6 +172,8 @@ fun BottomBar(
                 Text(
                     text = "Perfil",
                     fontSize = 12.sp,
+                    color = Color.Gray
+
                 )
 
             }

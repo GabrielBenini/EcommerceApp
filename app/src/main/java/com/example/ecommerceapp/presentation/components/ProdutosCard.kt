@@ -83,6 +83,6 @@ fun ProdutosCard(
 @Preview
 @Composable
 fun preview() {
-    ProdutosCard(produto = Produto("Camisa agi", R.drawable.ic_launcher_foreground, "1390"))
+    ProdutosCard(produto = Produto("Camisa agi", R.drawable.ic_launcher_foreground, "1390", "Desc"))
 }
 
