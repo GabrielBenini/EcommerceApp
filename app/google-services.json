@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "966164740303",
+    "project_id": "agistore-84c20",
+    "storage_bucket": "agistore-84c20.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:966164740303:android:2725563d132ffebd4d9fba",
+        "android_client_info": {
+          "package_name": "com.example.ecommerceapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZAC6C1_YNiH3_uO03CRGkPe4DAWaA1n0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

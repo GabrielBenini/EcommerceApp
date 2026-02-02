@@ -6,6 +6,9 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.example.ecommerceapp.presentation.components.HomeRoute
 import com.example.ecommerceapp.ui.theme.EcommerceAppTheme
+import com.google.firebase.Firebase
+import com.google.firebase.FirebaseError
+import com.google.firebase.analytics.FirebaseAnalytics
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -15,6 +18,7 @@ class MainActivity : ComponentActivity() {
             EcommerceAppTheme {
 
                 HomeRoute(showBottomBar = true)
+
 
             }
         }
