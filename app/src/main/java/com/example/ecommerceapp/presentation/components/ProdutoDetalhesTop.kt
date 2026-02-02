@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.filled.FavoriteBorder
@@ -36,14 +37,15 @@ fun ProdutoDetalhesTop(
 
     Surface(
         modifier = modifier
-            .height(220.dp),
+            .height(250.dp),
         color = Color(0xFFE2EFFF)
     ) {
 
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
+                .padding(horizontal = 16.dp)
+                .statusBarsPadding()
         ) {
 
             FilledIconButton(

@@ -34,6 +34,8 @@ import androidx.compose.ui.unit.sp
 import com.example.ecommerceapp.R
 import com.example.ecommerceapp.model.Produto
 import com.example.ecommerceapp.presentation.components.ProdutoDetalhesTop
+import com.example.ecommerceapp.ui.theme.BlueAgi
+import com.example.ecommerceapp.ui.theme.Verde
 
 @Preview(showBackground = true)
 @Composable
@@ -72,7 +74,7 @@ fun ProdutoDetalhesScreen(
                 text = produto.preco,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.SemiBold,
-                color = Color.Blue
+                color = Color(BlueAgi.value)
             )
         }
 
@@ -80,7 +82,7 @@ fun ProdutoDetalhesScreen(
             modifier = Modifier
                 .padding(horizontal = 16.dp),
             text = "• Em estoque",
-            color = Color.Green
+            color = Color(Verde.value)
         )
 
         Card(
@@ -200,7 +202,7 @@ fun ProdutoDetalhesScreen(
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = Color.Blue
+                containerColor = Color(BlueAgi.value)
             )
         ) {
             

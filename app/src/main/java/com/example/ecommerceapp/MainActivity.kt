@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.example.ecommerceapp.presentation.components.HomeRoute
+import com.example.ecommerceapp.presentation.detalhes.ProdutoDetalhesScreen
 import com.example.ecommerceapp.presentation.login.LoginScreen
 import com.example.ecommerceapp.ui.theme.EcommerceAppTheme
 import com.google.firebase.Firebase
@@ -18,8 +19,11 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             EcommerceAppTheme {
-                HomeRoute(showBottomBar = true)
+//                HomeRoute(showBottomBar = true)
+
+                ProdutoDetalhesScreen()
             }
+
         }
     }
 }
