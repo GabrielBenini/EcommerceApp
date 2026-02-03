@@ -1,5 +1,6 @@
 package com.example.ecommerceapp.presentation.detalhes
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -9,31 +10,36 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ArrowBackIosNew
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.ecommerceapp.R
 import com.example.ecommerceapp.model.Produto
-import com.example.ecommerceapp.presentation.components.ProdutoDetalhesTop
 import com.example.ecommerceapp.ui.theme.BlueAgi
 import com.example.ecommerceapp.ui.theme.Verde
 
@@ -48,7 +54,7 @@ fun ProdutoDetalhesScreen(
         "59,90",
         "Capinha de silicone azul para celular, proteção e estilo para o seu dispositivo."
     ),
-    onBackClick: () -> Boolean? = { null },
+    navigateBack: () -> Boolean = { false },
 
     ) {
 
@@ -58,7 +64,68 @@ fun ProdutoDetalhesScreen(
             .fillMaxSize()
     ) {
 
-        ProdutoDetalhesTop()
+        Surface(
+            modifier = modifier
+                .height(250.dp),
+            color = Color(0xFFE2EFFF)
+        ) {
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
+                    .statusBarsPadding()
+            ) {
+
+                FilledIconButton(
+                    onClick = { navigateBack() },
+                    colors = IconButtonDefaults.iconButtonColors(
+                        containerColor = Color.White,
+                        contentColor = Color.Black
+                    )
+                ) {
+
+                    Icon(
+                        imageVector = Icons.Default.ArrowBackIosNew,
+                        contentDescription = "Voltar"
+                    )
+
+                }
+
+                Spacer(Modifier.weight(1f))
+                FilledIconButton(
+                    onClick = { TODO() },
+                    colors = IconButtonDefaults.iconButtonColors(
+                        containerColor = Color.White,
+                        contentColor = Color.Black
+                    )
+                ) {
+
+                    Icon(
+                        imageVector = Icons.Default.FavoriteBorder,
+                        contentDescription = "Voltar"
+                    )
+
+                }
+
+            }
+
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+
+
+                Image(
+                    painterResource(produto.imagem),
+                    contentDescription = "Imagem Produto"
+                )
+
+
+            }
+        }
 
         Row(
             modifier = Modifier
@@ -208,7 +275,7 @@ fun ProdutoDetalhesScreen(
                 containerColor = Color(BlueAgi.value)
             )
         ) {
-            
+
             Row(
                 modifier = Modifier
                     .padding(8.dp),
