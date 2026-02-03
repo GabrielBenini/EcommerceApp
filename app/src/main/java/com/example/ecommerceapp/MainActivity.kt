@@ -17,7 +17,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             EcommerceAppTheme {
 
-                CarrinhoScreen()
+                AppNavigation()
 
             }
 

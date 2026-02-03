@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun BottomBar(
     modifier: Modifier = Modifier,
-    navigateToCarrinho: () -> Unit = { }
+    onClickCarrinho: () -> Unit = {}
 ) {
 
     BottomAppBar(
@@ -51,7 +51,7 @@ fun BottomBar(
             ) {
 
                 IconButton(
-                    onClick = { navigateToCarrinho() },
+                    onClick = { },
                     colors = IconButtonDefaults.iconButtonColors(
                         contentColor = Color.Gray
                     )
@@ -77,7 +77,7 @@ fun BottomBar(
             ) {
 
                 IconButton(
-                    onClick = { TODO() },
+                    onClick = { onClickCarrinho()  },
                     colors = IconButtonDefaults.iconButtonColors(
                         contentColor = Color.Gray
                     )

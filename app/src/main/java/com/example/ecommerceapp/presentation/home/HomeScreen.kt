@@ -1,5 +1,6 @@
 package com.example.ecommerceapp.presentation.home
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -34,19 +35,21 @@ import com.example.ecommerceapp.presentation.components.ProdutosCard
 import com.example.ecommerceapp.presentation.components.SearchField
 
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
     categoria: CategoriaData = CategoriaData,
     produto: ProdutoData = ProdutoData,
-    navigateToDetailScreen: () -> Unit
+    navigateToDetailScreen: () -> Unit,
+    navigateToCarrinho: () -> Unit
 ) {
 
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
         bottomBar = {
-             BottomBar()
+             BottomBar(onClickCarrinho = navigateToCarrinho)
         }
     ) {
         Column(

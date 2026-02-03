@@ -1,5 +1,6 @@
 package com.example.ecommerceapp.presentation.Carrinho
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,6 +18,7 @@ import com.example.ecommerceapp.presentation.components.AgiStoreHeader
 import com.example.ecommerceapp.presentation.components.BottomBar
 import com.example.ecommerceapp.presentation.components.CarrinhoCard
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Preview
 @Composable
 fun CarrinhoScreen(
