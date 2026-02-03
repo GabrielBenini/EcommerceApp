@@ -12,8 +12,6 @@ import com.example.ecommerceapp.presentation.home.HomeScreen
 sealed class Destination(val route: String) {
     object Home : Destination("home")
     object Details : Destination("details")
-    object Bottom : Destination("bottom")
-
     object Carrinho : Destination("carrinho")
 }
 
@@ -47,11 +45,6 @@ fun AppNavigation() {
                     true
                 }
             )
-        }
-
-        composable(route = Destination.Bottom.route){
-
-
         }
 
         composable(route = Destination.Carrinho.route){
