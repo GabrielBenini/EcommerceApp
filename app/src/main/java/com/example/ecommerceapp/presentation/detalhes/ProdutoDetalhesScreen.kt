@@ -41,7 +41,14 @@ import com.example.ecommerceapp.ui.theme.Verde
 @Composable
 fun ProdutoDetalhesScreen(
     modifier: Modifier = Modifier,
-    produto: Produto = Produto(1,"Capinha de Celular Azul", R.drawable.capinhaazul, "59,90", "Capinha de silicone azul para celular, proteção e estilo para o seu dispositivo."),
+    produto: Produto = Produto(
+        1,
+        "Capinha de Celular Azul",
+        R.drawable.capinhaazul,
+        "59,90",
+        "Capinha de silicone azul para celular, proteção e estilo para o seu dispositivo."
+    ),
+    onBackClick: () -> Boolean? = { null },
 
     ) {
 

@@ -23,13 +23,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.ecommerceapp.viewmodel.HomeViewModel
+
+
 
 @Preview
 @Composable
 fun SearchField(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: HomeViewModel = viewModel()
 ) {
 
+    val uiState = viewModel.uiState.collectAsStateWithLifecycle()
 
     Row(
         modifier = Modifier
@@ -61,9 +68,9 @@ fun SearchField(
 
             singleLine = true,
             shape = RoundedCornerShape(20.dp),
-            value = "Buscar Produtos...",
-            onValueChange = {},
-            label = {},
+            value = uiState.value.searchProduct,
+            onValueChange = { viewModel.updateSearchProduct(it) },
+            label = { Text(text = "Buscar Produtos...") },
             leadingIcon = {
                 Icon(
                     imageVector = Icons.Default.Search,

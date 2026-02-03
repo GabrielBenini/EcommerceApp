@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.ecommerceapp.model.Categoria
 import androidx.compose.foundation.lazy.staggeredgrid.items
+import androidx.navigation.NavController
 import com.example.ecommerceapp.data.CategoriaData
 import com.example.ecommerceapp.data.ProdutoData
 import com.example.ecommerceapp.model.Produto
@@ -163,6 +164,9 @@ fun HomeScreen(
                     items(produto.productList) { item ->
 
                         ProdutosCard(
+                            onClick = {
+                                // Navegar para a tela de detalhes do produto
+                            },
                             produto = item,
                             modifier = Modifier
                                 .padding(horizontal = 12.dp, vertical = 8.dp)
@@ -180,5 +184,5 @@ fun HomeScreen(
 @Preview(showBackground = true)
 @Composable
 fun Prewview() {
-    HomeScreen()
+//    HomeScreen()
 }

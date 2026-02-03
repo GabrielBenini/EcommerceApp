@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.example.ecommerceapp.presentation.components.HomeRoute
+
 import com.example.ecommerceapp.ui.theme.EcommerceAppTheme
 
 
@@ -14,7 +15,9 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             EcommerceAppTheme {
+
                 HomeRoute(showBottomBar = true)
+
             }
 
         }

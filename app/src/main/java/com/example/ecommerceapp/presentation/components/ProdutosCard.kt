@@ -2,6 +2,7 @@ package com.example.ecommerceapp.presentation.components
 
 import android.widget.Space
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -24,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.ecommerceapp.R
 import com.example.ecommerceapp.model.Categoria
 import com.example.ecommerceapp.model.Produto
@@ -32,12 +34,18 @@ import com.example.ecommerceapp.model.Produto
 @Composable
 fun ProdutosCard(
     produto: Produto,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClick: (Produto) -> Unit
 ) {
 
     Card(
         modifier = modifier
             .height(200.dp)
+            .clickable(
+                onClick = {
+                    onClick(produto)
+                }
+            )
 
 
     ) {
