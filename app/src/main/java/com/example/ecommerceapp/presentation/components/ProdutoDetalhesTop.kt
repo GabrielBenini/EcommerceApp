@@ -31,7 +31,8 @@ import com.example.ecommerceapp.model.Produto
 @Composable
 fun ProdutoDetalhesTop(
     modifier: Modifier = Modifier,
-    produto: Produto = Produto("Produto", R.drawable.ic_launcher_foreground, "149,90", "Descricao")
+    produto: Produto =         Produto(1,"Capinha de Celular Azul", R.drawable.capinhaazul, "59,90", "Capinha de silicone azul para celular, proteção e estilo para o seu dispositivo.")
+
     ) {
 
 

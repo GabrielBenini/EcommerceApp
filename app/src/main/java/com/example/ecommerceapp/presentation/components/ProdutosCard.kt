@@ -49,6 +49,7 @@ fun ProdutosCard(
                 contentDescription = "produtos",
                 alignment = Alignment.Center,
                 modifier = Modifier
+                    .padding(top = 16.dp)
                     .fillMaxWidth()
             )
 
@@ -83,6 +84,6 @@ fun ProdutosCard(
 @Preview
 @Composable
 fun preview() {
-    ProdutosCard(produto = Produto("Camisa agi", R.drawable.ic_launcher_foreground, "1390", "Desc"))
+    Produto(1,"Capinha de Celular Azul", R.drawable.capinhaazul, "59,90", "Capinha de silicone azul para celular, proteção e estilo para o seu dispositivo.")
 }
 

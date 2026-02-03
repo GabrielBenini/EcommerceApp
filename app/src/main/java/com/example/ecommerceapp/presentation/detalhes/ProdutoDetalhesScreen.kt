@@ -41,13 +41,9 @@ import com.example.ecommerceapp.ui.theme.Verde
 @Composable
 fun ProdutoDetalhesScreen(
     modifier: Modifier = Modifier,
-    produto: Produto = Produto(
-        "Produto",
-        R.drawable.ic_launcher_foreground,
-        "149,90",
-        "Essa eh a descricao de teste para o nosso primeiro produto na tela de deltahes"
-    )
-) {
+    produto: Produto = Produto(1,"Capinha de Celular Azul", R.drawable.capinhaazul, "59,90", "Capinha de silicone azul para celular, proteção e estilo para o seu dispositivo."),
+
+    ) {
 
 
     Column(
