@@ -26,7 +26,9 @@ import androidx.compose.ui.unit.dp
 
 @Preview
 @Composable
-fun SearchField(modifier: Modifier = Modifier) {
+fun SearchField(
+    modifier: Modifier = Modifier
+) {
 
 
     Row(
