@@ -56,7 +56,6 @@ fun AgiStoreHeader() {
             )
             .padding(24.dp)
     ) {
-        // TopBar com ícones
         Row(
             modifier = Modifier
                 .fillMaxWidth(),
@@ -85,7 +84,6 @@ fun AgiStoreHeader() {
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
-                    .padding(top = 55.dp)
             ) {
                 IconButton(
                     onClick = {TODO()},

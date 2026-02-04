@@ -56,6 +56,7 @@ fun CarrinhoCard(
     Card(
         modifier = modifier
             .fillMaxWidth()
+            .padding(bottom = 16.dp)
             .height(100.dp),
         elevation = CardDefaults.cardElevation(4.dp),
         colors = CardDefaults.cardColors(

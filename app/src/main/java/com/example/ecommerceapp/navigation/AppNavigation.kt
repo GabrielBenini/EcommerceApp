@@ -4,8 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.ecommerceapp.presentation.Carrinho.CarrinhoScreen
-import com.example.ecommerceapp.presentation.components.BottomBar
+import com.example.ecommerceapp.presentation.Carrinho.ScreenValor
 import com.example.ecommerceapp.presentation.detalhes.ProdutoDetalhesScreen
 import com.example.ecommerceapp.presentation.home.HomeScreen
 
@@ -49,7 +48,7 @@ fun AppNavigation() {
 
         composable(route = Destination.Carrinho.route){
             // Tela do carrinho de compras
-            CarrinhoScreen()
+            ScreenValor()
         }
     }
 }

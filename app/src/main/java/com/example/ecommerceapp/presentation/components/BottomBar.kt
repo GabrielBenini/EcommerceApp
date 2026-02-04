@@ -112,7 +112,7 @@ fun BottomBar(
 
                     Icon(
                         imageVector = Icons.Default.History,
-                        contentDescription = "Pedidos"
+                        contentDescription = "Histórico"
                     )
                 }
 

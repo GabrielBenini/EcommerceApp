@@ -27,11 +27,11 @@ fun DestaqueCard(
     modifier: Modifier = Modifier
 ) {
 
-    val orangeToRedBrush = Brush.linearGradient(
+    val greenGradient = Brush.linearGradient(
         colors = listOf(
-            Color(0xFFFF9500),
-            Color(0xFFFF7043),
-            Color(0xFFFF6B6B)
+            Color(0xFF34D399),  // Verde claro
+            Color(0xFF10B981),  // Verde
+            Color(0xFF059669)   // Verde escuro
         )
     )
 
@@ -40,7 +40,7 @@ fun DestaqueCard(
             .padding(horizontal = 16.dp, vertical = 8.dp)
             .fillMaxWidth()
             .clip(RoundedCornerShape(16.dp))
-            .background(orangeToRedBrush),
+            .background(greenGradient),
         colors = CardDefaults.cardColors(
             containerColor = Color.Transparent
         ),

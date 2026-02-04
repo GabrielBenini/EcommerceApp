@@ -17,11 +17,12 @@ import androidx.compose.ui.unit.sp
 import com.example.ecommerceapp.presentation.components.AgiStoreHeader
 import com.example.ecommerceapp.presentation.components.BottomBar
 import com.example.ecommerceapp.presentation.components.CarrinhoCard
+import com.example.ecommerceapp.presentation.components.ValorTotalCard
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Preview
 @Composable
-fun CarrinhoScreen(
+fun ScreenValor(
     modifier: Modifier = Modifier
 
 ) {
@@ -51,11 +52,25 @@ fun CarrinhoScreen(
 
             Column(
                 modifier = Modifier
-                    .padding(16.dp)
+                    .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
             ) {
+                CarrinhoCard()
                 CarrinhoCard()
             }
 
+            Column(
+                modifier = Modifier
+                    .padding(16.dp)
+            ) {
+                ValorTotalCard(
+                    titulo = "Subtotal",
+                    subtitulo = "Taxa de Serviço",
+                    total = "Total",
+                    subTotalValor = "150,00",
+                    taxaServicoValor = "10,00",
+                    totalValor = "160,00"
+                )
+            }
         }
     }
 }

@@ -24,6 +24,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.lazy.staggeredgrid.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import com.example.ecommerceapp.data.CategoriaData
 import com.example.ecommerceapp.data.ProdutoData
@@ -41,8 +44,8 @@ fun HomeScreen(
     modifier: Modifier = Modifier,
     categoria: CategoriaData = CategoriaData,
     produto: ProdutoData = ProdutoData,
-    navigateToDetailScreen: () -> Unit,
-    navigateToCarrinho: () -> Unit
+    navigateToDetailScreen: () -> Unit = {},
+    navigateToCarrinho: () -> Unit = {}
 ) {
 
 
@@ -191,5 +194,5 @@ fun HomeScreen(
 @Preview(showBackground = true)
 @Composable
 fun Prewview() {
-//    HomeScreen()
+    HomeScreen()
 }
