@@ -35,7 +35,7 @@ fun ValorTotalCard(
         modifier = modifier
             .fillMaxWidth()
             .padding(bottom = 16.dp)
-            .height(120.dp),
+            .height(130.dp),
         elevation = CardDefaults.cardElevation(4.dp),
         colors = CardDefaults.cardColors(
             containerColor = Color.White

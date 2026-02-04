@@ -1,5 +1,4 @@
-package com.example.ecommerceapp.viewmodel
-
+package com.example.ecommerceapp.presentation.home
 
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
