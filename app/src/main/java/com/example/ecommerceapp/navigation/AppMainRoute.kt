@@ -10,11 +10,14 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.ecommerceapp.presentation.Carrinho.CarrinhoScreen
+import com.example.ecommerceapp.presentation.admin.AdminScreen
+import com.example.ecommerceapp.presentation.cadastro.CadastroScreen
 import com.example.ecommerceapp.presentation.components.AgiStoreHeader
 import com.example.ecommerceapp.presentation.components.BottomBar
 import com.example.ecommerceapp.presentation.detalhes.ProdutoDetalhesScreen
 import com.example.ecommerceapp.presentation.historico.HistoricoScreen
 import com.example.ecommerceapp.presentation.home.HomeScreen
+import com.example.ecommerceapp.presentation.login.LoginScreen
 import com.example.ecommerceapp.presentation.perfil.PerfilScreen
 import com.example.ecommerceapp.presentation.recarga.RecargaScreen
 
@@ -30,15 +33,18 @@ fun AppMainRoute() {
         ?.route
 
     val hideBottomBarRoutes = listOf(
-        Destination.Details.route
+        Destination.Details.route,
+        Destination.Login.route,
+        Destination.Cadastro.route,
+        Destination.Admin.route
     )
 
     val hideTopBarRoutes = listOf(
-        Destination.Details.route
+        Destination.Details.route,
+        Destination.Login.route,
+        Destination.Cadastro.route,
+        Destination.Admin.route
     )
-
-
-
     Scaffold(
         topBar = {
             if (currentRoute !in hideTopBarRoutes) {
@@ -54,9 +60,17 @@ fun AppMainRoute() {
 
         NavHost(
             navController = navController,
-            startDestination = Destination.Home.route,
+            startDestination = Destination.Login.route,
             modifier = Modifier.padding(innerPadding)
         ) {
+
+            composable(route = Destination.Login.route) {
+                LoginScreen(navController = navController)
+            }
+
+            composable(route = Destination.Cadastro.route) {
+                CadastroScreen(navController = navController)
+            }
 
             composable(route = Destination.Home.route) {
                 HomeScreen(
@@ -91,6 +105,16 @@ fun AppMainRoute() {
 
             composable(route = Destination.Recarga.route) {
                 RecargaScreen(navController = navController)
+            }
+
+            composable(route = Destination.Admin.route) {
+                AdminScreen(
+                    navController = navController,
+                    navigateBack = {
+                        navController.popBackStack()
+                        true
+                    }
+                )
             }
 
 

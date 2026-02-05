@@ -18,4 +18,7 @@ sealed class Destination(val route: String) {
     object Historico : Destination("historico")
     object Perfil : Destination("perfil")
     object Recarga : Destination("recarga")
+    object Login : Destination("login")
+    object Cadastro : Destination("cadastro")
+    object Admin : Destination("admin")
 }
