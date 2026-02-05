@@ -38,14 +38,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.example.ecommerceapp.R
 import com.example.ecommerceapp.model.Produto
 import com.example.ecommerceapp.ui.theme.BlueAgi
 import com.example.ecommerceapp.ui.theme.Verde
 
-@Preview(showBackground = true)
+//@Preview(showBackground = true)
 @Composable
 fun ProdutoDetalhesScreen(
+    navController: NavController,
     modifier: Modifier = Modifier,
     produto: Produto = Produto(
         1,

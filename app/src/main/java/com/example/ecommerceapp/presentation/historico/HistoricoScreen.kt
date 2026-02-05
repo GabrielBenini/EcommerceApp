@@ -11,46 +11,40 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.ecommerceapp.presentation.components.AgiStoreHeader
 import com.example.ecommerceapp.presentation.components.BottomBar
 import com.example.ecommerceapp.presentation.components.HistoricoPedidoCard
 
-@Preview
+//@Preview
 @Composable
 fun HistoricoScreen(
+    navController: NavHostController,
     modifier: Modifier = Modifier
 ) {
-    Scaffold(
-        modifier = modifier.fillMaxSize(),
-        bottomBar = {
-            BottomBar()
-        }
+
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+
     ) {
+
         Column(
-            modifier = modifier
-                .fillMaxSize()
-
+            modifier = Modifier
+                .padding(16.dp)
         ) {
-            AgiStoreHeader()
 
-            Column(
-                modifier = Modifier
-                    .padding(16.dp)
-            ) {
+            Text(
+                text = "Histórico de Pedidos",
+                fontSize = 20.sp,
+                fontWeight = FontWeight.SemiBold
+            )
 
-                Text(
-                    text = "Histórico de Pedidos",
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.SemiBold
-                )
-
-                HistoricoPedidoCard()
-
-
-
-            }
+            HistoricoPedidoCard()
 
 
         }
+
+
     }
 }

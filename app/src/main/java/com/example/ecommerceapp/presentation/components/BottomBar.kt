@@ -23,20 +23,29 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
+import com.example.ecommerceapp.navigation.Destination
+import com.example.ecommerceapp.ui.theme.BlueAgi
 
-@Preview
+//@Preview
 @Composable
 fun BottomBar(
-    modifier: Modifier = Modifier,
-    onClickCarrinho: () -> Unit = {}
+    navController: NavController,
+    modifier: Modifier = Modifier
 ) {
 
-    BottomAppBar(
-        modifier = Modifier
-    ) {
+    val currentRoute = navController
+        .currentBackStackEntryAsState().value
+        ?.destination
+        ?.route
+
+    BottomAppBar(modifier = modifier) {
 
         Row(
             modifier = Modifier
@@ -46,141 +55,85 @@ fun BottomBar(
             verticalAlignment = Alignment.CenterVertically
         ) {
 
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally
+            BottomBarItem(
+                selected = currentRoute == Destination.Home.route,
+                icon = Icons.Default.Home,
+                label = "Início"
             ) {
-
-                IconButton(
-                    onClick = { },
-                    colors = IconButtonDefaults.iconButtonColors(
-                        contentColor = Color.Gray
-                    )
-                ) {
-
-
-                    Icon(
-                        imageVector = Icons.Default.Home,
-                        contentDescription = "Home"
-                    )
+                navController.navigate(Destination.Home.route) {
+                    popUpTo(Destination.Home.route) { inclusive = false }
+                    launchSingleTop = true
                 }
-
-                Text(
-                    text = "Inicio",
-                    fontSize = 12.sp,
-                    color = Color.Gray
-                )
-
             }
 
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally
+            BottomBarItem(
+                selected = currentRoute == Destination.Carrinho.route,
+                icon = Icons.Default.ShoppingCart,
+                label = "Carrinho"
             ) {
-
-                IconButton(
-                    onClick = { onClickCarrinho()  },
-                    colors = IconButtonDefaults.iconButtonColors(
-                        contentColor = Color.Gray
-                    )
-                ) {
-
-
-                    Icon(
-                        imageVector = Icons.Default.ShoppingCart,
-                        contentDescription = "Carrinho"
-                    )
+                navController.navigate(Destination.Carrinho.route) {
+                    launchSingleTop = true
                 }
-
-                Text(
-                    text = "Carrinho",
-                    fontSize = 12.sp,
-                    color = Color.Gray
-                )
-
             }
 
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally
+            BottomBarItem(
+                selected = currentRoute == Destination.Historico.route,
+                icon = Icons.Default.History,
+                label = "Histórico"
             ) {
-
-                IconButton(
-                    onClick = { TODO() },
-                    colors = IconButtonDefaults.iconButtonColors(
-                        contentColor = Color.Gray
-                    )
-                ) {
-
-
-                    Icon(
-                        imageVector = Icons.Default.History,
-                        contentDescription = "Histórico"
-                    )
-                }
-
-                Text(
-                    text = "Pedidos",
-                    fontSize = 12.sp,
-                    color = Color.Gray
-
-                )
-
+                navController.navigate(Destination.Historico.route)
             }
 
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally
+            BottomBarItem(
+                selected = currentRoute == Destination.Recarga.route,
+                icon = Icons.Default.MonetizationOn,
+                label = "Recarga"
             ) {
-
-                IconButton(
-                    onClick = { TODO() },
-                    colors = IconButtonDefaults.iconButtonColors(
-                        contentColor = Color.Gray
-                    )
-                ) {
-
-
-                    Icon(
-                        imageVector = Icons.Default.MonetizationOn,
-                        contentDescription = "Recarga"
-                    )
-                }
-
-                Text(
-                    text = "Recarga",
-                    fontSize = 12.sp,
-                    color = Color.Gray
-
-                )
-
+                navController.navigate(Destination.Recarga.route)
             }
 
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally
+            BottomBarItem(
+                selected = currentRoute == Destination.Perfil.route,
+                icon = Icons.Default.Person,
+                label = "Perfil"
             ) {
-
-                IconButton(
-                    onClick = { TODO() },
-                    colors = IconButtonDefaults.iconButtonColors(
-                        contentColor = Color.Gray
-                    )
-                ) {
-
-
-                    Icon(
-                        imageVector = Icons.Default.Person,
-                        contentDescription = "Perfil"
-                    )
-                }
-
-                Text(
-                    text = "Perfil",
-                    fontSize = 12.sp,
-                    color = Color.Gray
-
-                )
-
+                navController.navigate(Destination.Perfil.route)
             }
-
-
         }
+    }
+}
+
+
+@Composable
+fun BottomBarItem(
+    selected: Boolean,
+    icon: ImageVector,
+    label: String,
+    onClick: () -> Unit
+){
+
+    val color = if (selected) Color(BlueAgi.value) else Color.Gray
+
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+
+        IconButton(
+            onClick = onClick
+        ) {
+            Icon(
+                icon,
+                contentDescription = label,
+                tint = color
+            )
+        }
+
+        Text(
+            text = label,
+            fontSize = 12.sp,
+            color = color
+        )
+
     }
 
 }

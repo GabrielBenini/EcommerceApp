@@ -4,8 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.example.ecommerceapp.navigation.AppNavigation
-import com.example.ecommerceapp.presentation.recarga.RecargaScreen
+import com.example.ecommerceapp.navigation.AppMainRoute
 
 import com.example.ecommerceapp.ui.theme.EcommerceAppTheme
 
@@ -17,7 +16,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             EcommerceAppTheme {
 
-                AppNavigation()
+                AppMainRoute()
 
             }
 
