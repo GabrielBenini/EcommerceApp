@@ -21,7 +21,6 @@ import com.example.ecommerceapp.presentation.recarga.RecargaScreen
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun AppMainRoute() {
-    // Main routing logic will be implemented here
 
     val navController = rememberNavController()
 
@@ -34,11 +33,17 @@ fun AppMainRoute() {
         Destination.Details.route
     )
 
+    val hideTopBarRoutes = listOf(
+        Destination.Details.route
+    )
+
 
 
     Scaffold(
         topBar = {
-            AgiStoreHeader(navController = navController)
+            if (currentRoute !in hideTopBarRoutes) {
+                AgiStoreHeader(navController = navController)
+            }
         },
         bottomBar = {
             if (currentRoute !in hideBottomBarRoutes) {
@@ -54,29 +59,39 @@ fun AppMainRoute() {
         ) {
 
             composable(route = Destination.Home.route) {
-                HomeScreen(navController = navController)
+                HomeScreen(
+                    navController = navController,
+                    navigateToDetailScreen = {
+                        navController.navigate(Destination.Details.route)
+                    }
+                )
             }
 
-            composable(route = Destination.Details.route){
-                ProdutoDetalhesScreen(navController = navController)
+            composable(route = Destination.Details.route) {
+                ProdutoDetalhesScreen(
+                    navController = navController,
+                    navigateBack = {
+                        navController.popBackStack()
+                        true
+                    }
+                )
             }
 
-            composable(route = Destination.Carrinho.route){
+            composable(route = Destination.Carrinho.route) {
                 CarrinhoScreen(navController = navController)
             }
 
-            composable(route = Destination.Historico.route){
+            composable(route = Destination.Historico.route) {
                 HistoricoScreen(navController = navController)
             }
 
-            composable(route = Destination.Perfil.route){
+            composable(route = Destination.Perfil.route) {
                 PerfilScreen(navController = navController)
             }
 
-            composable(route = Destination.Recarga.route){
+            composable(route = Destination.Recarga.route) {
                 RecargaScreen(navController = navController)
             }
-
 
 
         }

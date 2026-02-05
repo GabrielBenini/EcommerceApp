@@ -31,13 +31,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.NavHostController
 
-//@Preview
+@Preview
 @Composable
-fun AgiStoreHeader(navController: NavController) {
+fun AgiStoreHeader(navController: NavController? = null) {
     Column(
         modifier = Modifier
+            .statusBarsPadding()
             .fillMaxWidth()
             .background(
                 brush = Brush.linearGradient(
@@ -49,7 +49,7 @@ fun AgiStoreHeader(navController: NavController) {
                     end = Offset(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY)
                 )
             )
-            .padding(24.dp)
+            .padding(24.dp),
     ) {
         Row(
             modifier = Modifier
@@ -59,7 +59,6 @@ fun AgiStoreHeader(navController: NavController) {
         ) {
             Column(
                 modifier = Modifier
-                    .statusBarsPadding()
             ){
                 Text(
                     text = "Olá, colaborador! 👋",
@@ -119,6 +118,7 @@ fun AgiStoreHeader(navController: NavController) {
 
         // Card de Saldo
         SaldoCard(
+            navController = navController,
             saldo = "R$ 156,80"
         )
     }

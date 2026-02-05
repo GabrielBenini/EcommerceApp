@@ -45,140 +45,131 @@ fun HomeScreen(
     categoria: CategoriaData = CategoriaData,
     produto: ProdutoData = ProdutoData,
     navigateToDetailScreen: () -> Unit = {},
-    navigateToCarrinho: () -> Unit = {}
 ) {
 
 
-    Column(
-        modifier = modifier
+    LazyColumn(
+        modifier = Modifier
             .fillMaxSize()
-
     ) {
 
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
+        item {
+            SearchField()
+        }
 
-            item {
-                SearchField()
+        item {
+            Text(
+                text = "Categorias",
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color(0xFF1E293B),
+                modifier = Modifier
+                    .padding(bottom = 10.dp, start = 30.dp)
+                    .fillMaxWidth()
+            )
+        }
+
+        item {
+
+            LazyRow(
+                modifier = Modifier
+                    .padding(start = 16.dp)
+            ) {
+
+                items(categoria.categoriaList) { item ->
+                    CategoriaCard(
+                        categoria = item,
+                        modifier = Modifier
+                    )
+
+                }
+
             }
 
-            item {
+        }
+
+        item {
+
+            Row(
+                modifier = Modifier
+                    .padding(top = 16.dp),
+                horizontalArrangement = Arrangement.Center
+            ) {
                 Text(
-                    text = "Categorias",
+                    text = "\uD83D\uDD25 Destaques",
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color(0xFF1E293B),
                     modifier = Modifier
                         .padding(bottom = 10.dp, start = 30.dp)
-                        .fillMaxWidth()
+                )
+
+                Spacer(Modifier.weight(1f))
+
+                Text(
+                    text = "Ver todos",
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Blue,
+                    modifier = Modifier
+                        .padding(end = 16.dp)
                 )
             }
 
-            item {
+            DestaqueCard()
 
-                LazyRow(
+        }
+
+        item {
+
+            Row(
+                modifier = Modifier
+                    .padding(top = 16.dp),
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    text = "Produtos",
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color(0xFF1E293B),
                     modifier = Modifier
-                        .padding(start = 16.dp)
-                ) {
+                        .padding(bottom = 10.dp, start = 30.dp)
+                )
 
-                    items(categoria.categoriaList) { item ->
-                        CategoriaCard(
-                            categoria = item,
-                            modifier = Modifier
-                        )
+                Spacer(Modifier.weight(1f))
 
-                    }
-
-                }
-
-            }
-
-            item {
-
-                Row(
+                Text(
+                    text = "Filtrar",
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Blue,
                     modifier = Modifier
-                        .padding(top = 16.dp),
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    Text(
-                        text = "\uD83D\uDD25 Destaques",
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color(0xFF1E293B),
-                        modifier = Modifier
-                            .padding(bottom = 10.dp, start = 30.dp)
-                    )
-
-                    Spacer(Modifier.weight(1f))
-
-                    Text(
-                        text = "Ver todos",
-                        fontWeight = FontWeight.Bold,
-                        color = Color.Blue,
-                        modifier = Modifier
-                            .padding(end = 16.dp)
-                    )
-                }
-
-                DestaqueCard()
-
+                        .padding(end = 16.dp)
+                )
             }
+        }
 
-            item {
+        item {
 
-                Row(
-                    modifier = Modifier
-                        .padding(top = 16.dp),
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    Text(
-                        text = "Produtos",
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color(0xFF1E293B),
+            LazyVerticalStaggeredGrid(
+                modifier = Modifier.height(600.dp),
+                columns = StaggeredGridCells.Fixed(2)
+            ) {
+
+                items(produto.productList) { item ->
+
+                    ProdutosCard(
+                        onClick = {
+                            // Navegar para a tela de detalhes do produto
+                            navigateToDetailScreen()
+                        },
+                        produto = item,
                         modifier = Modifier
-                            .padding(bottom = 10.dp, start = 30.dp)
+                            .padding(horizontal = 12.dp, vertical = 8.dp)
                     )
-
-                    Spacer(Modifier.weight(1f))
-
-                    Text(
-                        text = "Filtrar",
-                        fontWeight = FontWeight.Bold,
-                        color = Color.Blue,
-                        modifier = Modifier
-                            .padding(end = 16.dp)
-                    )
-                }
-            }
-
-            item {
-
-                LazyVerticalStaggeredGrid(
-                    modifier = Modifier.height(600.dp),
-                    columns = StaggeredGridCells.Fixed(2)
-                ) {
-
-                    items(produto.productList) { item ->
-
-                        ProdutosCard(
-                            onClick = {
-                                // Navegar para a tela de detalhes do produto
-                                navigateToDetailScreen()
-                            },
-                            produto = item,
-                            modifier = Modifier
-                                .padding(horizontal = 12.dp, vertical = 8.dp)
-                        )
-
-                    }
 
                 }
 
             }
+
         }
     }
 }

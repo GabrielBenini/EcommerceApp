@@ -11,6 +11,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AttachMoney
+import androidx.compose.material.icons.filled.ExitToApp
+import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material.icons.filled.Help
+import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -127,8 +131,52 @@ fun PerfilScreen(
                 PerfilCard(
                     icon = Icons.Default.AttachMoney,
                     iconColor = Color(0xFF33D02F),
-                    iconBackgroundColor = Color(BlueAgi.value).copy(alpha = 0.2f),
+                    iconBackgroundColor = Color(0xFF33D02F).copy(alpha = 0.2f),
                     text = "Extrato de Saldo"
+                )
+
+            }
+
+            item {
+
+                PerfilCard(
+                    icon = Icons.Default.FavoriteBorder,
+                    iconColor = Color(0xFFA530D2),
+                    iconBackgroundColor = Color(0xFFA530D2).copy(alpha = 0.2f),
+                    text = "Favoritos"
+                )
+
+            }
+
+            item {
+
+                PerfilCard(
+                    icon = Icons.Default.Notifications,
+                    iconColor = Color(0xFFF37925),
+                    iconBackgroundColor = Color(0xFFF37925).copy(alpha = 0.2f),
+                    text = "Notificações"
+                )
+
+            }
+
+            item {
+
+                PerfilCard(
+                    icon = Icons.Default.Help,
+                    iconColor = Color.Black,
+                    iconBackgroundColor = Color.LightGray.copy(alpha = 0.6f),
+                    text = "Ajuda"
+                )
+
+            }
+
+            item {
+
+                PerfilCard(
+                    icon = Icons.Default.ExitToApp,
+                    iconColor = Color(0xFFF52222),
+                    iconBackgroundColor = Color(0xFFF52222).copy(alpha = 0.2f),
+                    text = "Sair da Conta"
                 )
 
             }

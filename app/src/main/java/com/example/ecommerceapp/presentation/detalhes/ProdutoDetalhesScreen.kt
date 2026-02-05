@@ -77,7 +77,6 @@ fun ProdutoDetalhesScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp)
-                    .statusBarsPadding()
             ) {
 
                 FilledIconButton(
@@ -243,7 +242,6 @@ fun ProdutoDetalhesScreen(
 
         }
 
-        Spacer(Modifier.height(70.dp))
 
         HorizontalDivider(thickness = 1.dp)
 
