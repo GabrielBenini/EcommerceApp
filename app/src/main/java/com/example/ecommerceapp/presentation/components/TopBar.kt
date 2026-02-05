@@ -1,5 +1,6 @@
 package com.example.ecommerceapp.presentation.components
 
+import android.R.attr.onClick
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -30,7 +31,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.ActivityNavigator
 import androidx.navigation.NavController
+import com.example.ecommerceapp.navigation.Destination
 
 @Preview
 @Composable
@@ -97,7 +100,9 @@ fun AgiStoreHeader(navController: NavController? = null) {
                     color = Color.White,
                     modifier = Modifier
                         .size(44.dp)
-                        .clickable { TODO() }
+                        .clickable {
+                                navController?.navigate(Destination.Perfil.route)
+                        }
                 ) {
                     Box(
                         contentAlignment = Alignment.Center,
