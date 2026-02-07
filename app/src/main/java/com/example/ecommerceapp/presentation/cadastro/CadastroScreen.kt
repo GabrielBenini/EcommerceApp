@@ -151,7 +151,7 @@ fun CadastroScreen(
                 Text(
                     modifier = Modifier
                         .clickable(
-                            onClick = { navController.navigate(Destination.Login.route) }
+                            onClick = { navController.navigate(Destination.Login) }
                         )
                         .padding(vertical = 8.dp),
                     text = "Criar Minha Conta"
@@ -174,7 +174,7 @@ fun CadastroScreen(
                 color = Color(BlueAgi.value),
                 modifier = Modifier
                     .clickable(
-                        onClick = { navController.navigate(Destination.Login.route) }
+                        onClick = { navController.navigate(Destination.Login) }
                     )
             )
 

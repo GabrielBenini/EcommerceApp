@@ -83,7 +83,7 @@ fun AgiStoreHeader(navController: NavController? = null) {
                 modifier = Modifier
             ) {
                 IconButton(
-                    onClick = { navController?.navigate(Destination.Admin.route) },
+                    onClick = { navController?.navigate(Destination.Admin) },
                     modifier = Modifier
                         .size(40.dp)
                         .background(Color.White.copy(alpha = 0.1f), RoundedCornerShape(8.dp))
@@ -101,7 +101,7 @@ fun AgiStoreHeader(navController: NavController? = null) {
                     modifier = Modifier
                         .size(44.dp)
                         .clickable {
-                                navController?.navigate(Destination.Perfil.route)
+                                navController?.navigate(Destination.Perfil)
                         }
                 ) {
                     Box(

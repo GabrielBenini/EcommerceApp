@@ -16,6 +16,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.ecommerceapp.presentation.home.HomeContract
+import com.example.ecommerceapp.presentation.home.HomeContract.Event.OnSearchProductChange
+import com.example.ecommerceapp.presentation.home.HomeContract.Effect
+import com.example.ecommerceapp.presentation.home.HomeContract.State
 import com.example.ecommerceapp.presentation.home.HomeViewModel
 
 
@@ -60,8 +64,8 @@ fun SearchField(
             singleLine = true,
             shape = RoundedCornerShape(20.dp),
             value = uiState.value.searchProduct,
-            onValueChange = { viewModel.updateSearchProduct(it) },
-            label = { Text(text = "Buscar Produtos: ") },
+            onValueChange = { viewModel.handleEvent(OnSearchProductChange(it)) },
+            label = { Text(text = "Buscar Produtos... ") },
             leadingIcon = {
                 Icon(
                     imageVector = Icons.Default.Search,

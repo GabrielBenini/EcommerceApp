@@ -75,7 +75,7 @@ fun SaldoCard(
 
             Button(
                 onClick = {
-                        navController?.navigate(Destination.Recarga.route)
+                        navController?.navigate(Destination.Recarga)
                 },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color.White

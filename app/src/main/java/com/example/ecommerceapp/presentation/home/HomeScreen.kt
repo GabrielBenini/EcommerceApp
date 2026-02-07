@@ -29,6 +29,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.example.ecommerceapp.data.CategoriaData
 import com.example.ecommerceapp.data.ProdutoData
+import com.example.ecommerceapp.model.Produto
 import com.example.ecommerceapp.presentation.components.AgiStoreHeader
 import com.example.ecommerceapp.presentation.components.BottomBar
 import com.example.ecommerceapp.presentation.components.CategoriaCard
@@ -40,11 +41,10 @@ import com.example.ecommerceapp.presentation.components.SearchField
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun HomeScreen(
-    navController: NavController,
     modifier: Modifier = Modifier,
     categoria: CategoriaData = CategoriaData,
     produto: ProdutoData = ProdutoData,
-    navigateToDetailScreen: () -> Unit = {},
+    navigateToDetailScreen: (Produto) -> Unit = {},
 ) {
 
 
@@ -159,7 +159,7 @@ fun HomeScreen(
                     ProdutosCard(
                         onClick = {
                             // Navegar para a tela de detalhes do produto
-                            navigateToDetailScreen()
+                            navigateToDetailScreen(item)
                         },
                         produto = item,
                         modifier = Modifier

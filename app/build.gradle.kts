@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     id("com.google.gms.google-services")
+    kotlin("plugin.serialization")
 }
 
 android {
@@ -34,9 +35,14 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-    kotlinOptions {
-        jvmTarget = "11"
+
+    kotlin {
+        compilerOptions {
+            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11)
+        }
     }
+
+
     buildFeatures {
         compose = true
     }
@@ -73,6 +79,6 @@ dependencies {
 
     implementation("androidx.navigation:navigation-compose:2.9.6")
 
-
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.10.0")
 
 }

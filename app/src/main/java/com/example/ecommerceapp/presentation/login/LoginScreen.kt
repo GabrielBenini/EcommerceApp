@@ -103,7 +103,7 @@ fun LoginScreen(
                 contentColor = Color.White
             ),
             shape = RoundedCornerShape(12.dp),
-            onClick = { navController.navigate(Destination.Home.route) }
+            onClick = { navController.navigate(Destination.Home) }
         ) {
 
             Text(
@@ -200,7 +200,7 @@ fun LoginScreen(
                 color = Color(BlueAgi.value),
                 modifier = Modifier
                     .clickable(
-                        onClick = { navController.navigate(Destination.Cadastro.route) }
+                        onClick = { navController.navigate(Destination.Cadastro) }
                     )
             )
 

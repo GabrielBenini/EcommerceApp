@@ -42,8 +42,7 @@ fun BottomBar(
 
     val currentRoute = navController
         .currentBackStackEntryAsState().value
-        ?.destination
-        ?.route
+        ?.destination?.route
 
     BottomAppBar(modifier = modifier) {
 
@@ -56,48 +55,48 @@ fun BottomBar(
         ) {
 
             BottomBarItem(
-                selected = currentRoute == Destination.Home.route,
+                selected = currentRoute == Destination.Home::class.qualifiedName,
                 icon = Icons.Default.Home,
                 label = "Início"
             ) {
-                navController.navigate(Destination.Home.route) {
-                    popUpTo(Destination.Home.route) { inclusive = false }
+                navController.navigate(Destination.Home) {
+                    popUpTo(Destination.Home) { inclusive = false }
                     launchSingleTop = true
                 }
             }
 
             BottomBarItem(
-                selected = currentRoute == Destination.Carrinho.route,
+                selected = currentRoute == Destination.Carrinho::class.qualifiedName,
                 icon = Icons.Default.ShoppingCart,
                 label = "Carrinho"
             ) {
-                navController.navigate(Destination.Carrinho.route) {
+                navController.navigate(Destination.Carrinho) {
                     launchSingleTop = true
                 }
             }
 
             BottomBarItem(
-                selected = currentRoute == Destination.Historico.route,
+                selected = currentRoute == Destination.Historico::class.qualifiedName,
                 icon = Icons.Default.History,
                 label = "Histórico"
             ) {
-                navController.navigate(Destination.Historico.route)
+                navController.navigate(Destination.Historico)
             }
 
             BottomBarItem(
-                selected = currentRoute == Destination.Recarga.route,
+                selected = currentRoute == Destination.Recarga::class.qualifiedName,
                 icon = Icons.Default.MonetizationOn,
                 label = "Recarga"
             ) {
-                navController.navigate(Destination.Recarga.route)
+                navController.navigate(Destination.Recarga)
             }
 
             BottomBarItem(
-                selected = currentRoute == Destination.Perfil.route,
+                selected = currentRoute == Destination.Perfil::class.qualifiedName,
                 icon = Icons.Default.Person,
                 label = "Perfil"
             ) {
-                navController.navigate(Destination.Perfil.route)
+                navController.navigate(Destination.Perfil)
             }
         }
     }
