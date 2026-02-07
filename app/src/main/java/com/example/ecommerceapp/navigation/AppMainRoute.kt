@@ -16,7 +16,6 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.example.ecommerceapp.model.Produto
 import com.example.ecommerceapp.presentation.Carrinho.CarrinhoScreen
-import com.example.ecommerceapp.presentation.admin.AdminScreen
 import com.example.ecommerceapp.presentation.cadastro.CadastroScreen
 import com.example.ecommerceapp.presentation.components.AgiStoreHeader
 import com.example.ecommerceapp.presentation.components.BottomBar
@@ -119,18 +118,6 @@ fun AppMainRoute() {
             composable<Destination.Recarga> {
                 RecargaScreen(navController = navController)
             }
-
-            composable<Destination.Admin> {
-                AdminScreen(
-                    navController = navController,
-                    navigateBack = {
-                        navController.popBackStack()
-                        true
-                    }
-                )
-            }
-
-
         }
 
     }

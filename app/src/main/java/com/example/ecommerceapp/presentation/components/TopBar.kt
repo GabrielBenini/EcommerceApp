@@ -82,18 +82,6 @@ fun AgiStoreHeader(navController: NavController? = null) {
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
             ) {
-                IconButton(
-                    onClick = { navController?.navigate(Destination.Admin) },
-                    modifier = Modifier
-                        .size(40.dp)
-                        .background(Color.White.copy(alpha = 0.1f), RoundedCornerShape(8.dp))
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Settings,
-                        contentDescription = "Admin",
-                        tint = Color.White
-                    )
-                }
 
                 Surface(
                     shape = RoundedCornerShape(50),
