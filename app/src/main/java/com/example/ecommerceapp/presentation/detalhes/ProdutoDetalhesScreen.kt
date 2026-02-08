@@ -27,9 +27,15 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Snackbar
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -38,12 +44,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.example.ecommerceapp.R
 import com.example.ecommerceapp.model.Produto
 import com.example.ecommerceapp.ui.theme.BlueAgi
 import com.example.ecommerceapp.ui.theme.Verde
+import com.example.ecommerceapp.presentation.detalhes.ProdutoDetalhesContract.Event
+import com.example.ecommerceapp.presentation.detalhes.ProdutoDetalhesContract.State
+import com.example.ecommerceapp.presentation.detalhes.ProdutoDetalhesContract.Effect.ShowSnackbar
+import com.example.ecommerceapp.presentation.detalhes.ProdutoDetalhesContract.Effect
+import com.example.ecommerceapp.presentation.detalhes.ProdutoDetalhesContract.Event.OnQtdProdutoChange
 
 //@Preview(showBackground = true)
 @Composable
@@ -58,8 +71,10 @@ fun ProdutoDetalhesScreen(
         "Capinha de silicone azul para celular, proteção e estilo para o seu dispositivo."
     ),
     navigateBack: () -> Boolean = { false },
+    viewModel: ProdutoDetalhesViewModel = viewModel()
+) {
 
-    ) {
+    val state = viewModel.uiState.collectAsStateWithLifecycle()
 
 
     Column(
@@ -96,7 +111,9 @@ fun ProdutoDetalhesScreen(
 
                 Spacer(Modifier.weight(1f))
                 FilledIconButton(
-                    onClick = { TODO() },
+                    onClick = {
+                        // Lógica para favoritar o produto
+                    },
                     colors = IconButtonDefaults.iconButtonColors(
                         containerColor = Color.White,
                         contentColor = Color.Black
@@ -105,7 +122,7 @@ fun ProdutoDetalhesScreen(
 
                     Icon(
                         imageVector = Icons.Default.FavoriteBorder,
-                        contentDescription = "Voltar"
+                        contentDescription = "Favoritar"
                     )
 
                 }
@@ -200,7 +217,9 @@ fun ProdutoDetalhesScreen(
         ) {
 
             IconButton(
-                onClick = { TODO() },
+                onClick = {
+                    viewModel.handleEvent(OnQtdProdutoChange(viewModel.uiState.value.qtdProduto - 1))
+                },
                 colors = IconButtonDefaults.iconButtonColors(
                     containerColor = Color.Gray.copy(alpha = 0.1f)
                 ),
@@ -217,7 +236,7 @@ fun ProdutoDetalhesScreen(
 
 
             Text(
-                text = "1",
+                text = "${state.value.qtdProduto}",
                 fontSize = 20.sp,
                 fontWeight = FontWeight.SemiBold,
                 modifier = Modifier
@@ -225,7 +244,10 @@ fun ProdutoDetalhesScreen(
             )
 
             IconButton(
-                onClick = { TODO() },
+                onClick = {
+                    viewModel.handleEvent(OnQtdProdutoChange(viewModel.uiState.value.qtdProduto + 1))
+
+                },
                 colors = IconButtonDefaults.iconButtonColors(
                     containerColor = Color.Gray.copy(alpha = 0.1f)
                 ),
@@ -258,7 +280,12 @@ fun ProdutoDetalhesScreen(
             Spacer(Modifier.weight(1f))
 
             Text(
-                text = produto.preco,
+                text = "R$ ${
+                    String.format(
+                        "%.2f",
+                        state.value.qtdProduto * produto.preco.replace(",", ".").toDouble()
+                    )
+                }",
                 fontSize = 20.sp,
                 fontWeight = FontWeight.SemiBold
             )
@@ -266,12 +293,16 @@ fun ProdutoDetalhesScreen(
         }
 
 
+
         Button(
-            onClick = {},
+            onClick = {
+
+                navigateBack()
+            },
             shape = RoundedCornerShape(16.dp),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp),
+                .padding(vertical = 16.dp, horizontal = 16.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color(BlueAgi.value)
             )
