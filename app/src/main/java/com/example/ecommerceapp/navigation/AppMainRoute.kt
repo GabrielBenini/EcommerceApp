@@ -42,14 +42,12 @@ fun AppMainRoute() {
     val hideBottomBarRoutes = listOf(
         Destination.Login::class.qualifiedName,
         Destination.Cadastro::class.qualifiedName,
-        Destination.Admin::class.qualifiedName,
         Destination.Details::class.qualifiedName
     )
 
     val hideTopBarRoutes = listOf(
         Destination.Login::class.qualifiedName,
         Destination.Cadastro::class.qualifiedName,
-        Destination.Admin::class.qualifiedName,
         Destination.Details::class.qualifiedName
     )
     Scaffold(
@@ -164,7 +162,4 @@ sealed interface Destination {
 
     @Serializable
     data object Cadastro : Destination
-
-    @Serializable
-    data object Admin : Destination
 }

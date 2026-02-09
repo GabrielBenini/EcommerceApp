@@ -30,7 +30,7 @@ import com.example.ecommerceapp.ui.theme.BlueAgi
 //@Preview
 @Composable
 fun CarrinhoScreen(
-        navController: NavHostController,
+    navController: NavHostController,
     modifier: Modifier = Modifier
 
 ) {
