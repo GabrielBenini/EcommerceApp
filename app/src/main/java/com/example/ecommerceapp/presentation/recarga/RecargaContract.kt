@@ -9,6 +9,7 @@ object RecargaContract {
 
     sealed class Event {
         data class OnValorRecargaChange(val valor: String) : Event()
+        data class OnValorFixoSelecionado(val valorFixo: String) : Event()
         object OnRealizarRecargaClick : Event()
     }
 

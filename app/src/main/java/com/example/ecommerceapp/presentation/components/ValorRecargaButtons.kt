@@ -12,15 +12,25 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.ecommerceapp.presentation.recarga.RecargaContract
+import com.example.ecommerceapp.presentation.recarga.RecargaViewModel
 
 @Preview
 @Composable
-fun ValorRecargaButtons(){
+fun ValorRecargaButtons(
+    modifier: Modifier = Modifier,
+    viewModel: RecargaViewModel = viewModel()
+){
+
+    val state by viewModel.uiState.collectAsStateWithLifecycle()
 
     Row(
         modifier = Modifier
@@ -41,7 +51,7 @@ fun ValorRecargaButtons(){
                     containerColor = Color.LightGray.copy(alpha = 0.3f),
                     contentColor = Color.Black
                 ),
-                onClick = { TODO() }
+                onClick = { viewModel.handleEvent(RecargaContract.Event.OnValorFixoSelecionado(valorFixo = "20")) }
             ) {
 
                 Text(

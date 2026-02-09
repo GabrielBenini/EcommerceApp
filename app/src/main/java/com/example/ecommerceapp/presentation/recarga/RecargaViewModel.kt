@@ -26,9 +26,10 @@ class RecargaViewModel : ViewModel(){
 
             }
 
-            else -> {
-
+            is RecargaContract.Event.OnValorFixoSelecionado -> {
+                _uiState.value = _uiState.value.copy(valorPersonalizado = event.valorFixo)
             }
+
         }
     }
 
