@@ -21,6 +21,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -28,6 +29,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.ecommerceapp.presentation.components.AgiStoreHeader
 import com.example.ecommerceapp.presentation.components.BottomBar
@@ -40,8 +43,12 @@ import com.example.ecommerceapp.ui.theme.BlueAgi
 @Composable
 fun RecargaScreen(
     navController: NavHostController,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: RecargaViewModel = viewModel()
 ) {
+
+    val state by viewModel.uiState.collectAsStateWithLifecycle()
+
     Column(modifier = Modifier.fillMaxSize()) {
 
 
@@ -82,8 +89,9 @@ fun RecargaScreen(
                     modifier = Modifier
                         .padding(top = 8.dp)
                         .fillMaxWidth(),
-                    value = "R$ 0,00",
-                    onValueChange = {}
+                    value = state.valorPersonalizado,
+                    label = {Text(text = "Valor Personalizado")},
+                    onValueChange = { viewModel.handleEvent(RecargaContract.Event.OnValorRecargaChange(valor = it)) }
                 )
             }
 
@@ -124,9 +132,9 @@ fun RecargaScreen(
                     titulo = "Valor da Recarga",
                     subtitulo = "Taxa",
                     total = "Novo Saldo",
-                    subTotalValor = "150,00",
+                    subTotalValor = state.valorPersonalizado,
                     taxaServicoValor = "Grátis",
-                    totalValor = "150,00"
+                    totalValor = state.valorPersonalizado
                 )
 
             }
