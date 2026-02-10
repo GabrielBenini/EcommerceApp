@@ -32,7 +32,8 @@ import com.example.ecommerceapp.model.Categoria
 @Composable
 fun CategoriaCard(
     modifier: Modifier = Modifier,
-    categoria: Categoria
+    categoria: Categoria,
+    onClick: () -> Unit = {}
 ) {
 
     Card(

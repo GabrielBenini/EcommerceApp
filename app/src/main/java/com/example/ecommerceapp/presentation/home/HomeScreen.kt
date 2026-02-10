@@ -3,6 +3,7 @@ package com.example.ecommerceapp.presentation.home
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -149,25 +150,25 @@ fun HomeScreen(
 
         item {
 
-            LazyVerticalStaggeredGrid(
-                modifier = Modifier.height(600.dp),
-                columns = StaggeredGridCells.Fixed(2)
+            FlowRow(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 12.dp),
+                maxItemsInEachRow = 2
             ) {
 
-                items(produto.productList) { item ->
+                produto.productList.forEach { item ->
 
                     ProdutosCard(
                         onClick = {
-                            // Navegar para a tela de detalhes do produto
                             navigateToDetailScreen(item)
                         },
                         produto = item,
                         modifier = Modifier
-                            .padding(horizontal = 12.dp, vertical = 8.dp)
+                            .padding(8.dp)
+                            .weight(1f)
                     )
-
                 }
-
             }
 
         }

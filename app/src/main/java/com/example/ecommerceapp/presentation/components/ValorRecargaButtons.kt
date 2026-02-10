@@ -70,7 +70,7 @@ fun ValorRecargaButtons(
                     containerColor = Color.LightGray.copy(alpha = 0.3f),
                     contentColor = Color.Black
                 ),
-                onClick = { TODO() }
+                onClick = { viewModel.handleEvent(RecargaContract.Event.OnValorFixoSelecionado(valorFixo = "50")) }
             ) {
 
                 Text(
@@ -94,7 +94,7 @@ fun ValorRecargaButtons(
                     containerColor = Color.LightGray.copy(alpha = 0.3f),
                     contentColor = Color.Black
                 ),
-                onClick = { TODO() }
+                onClick = { viewModel.handleEvent(RecargaContract.Event.OnValorFixoSelecionado(valorFixo = "100")) }
             ) {
 
                 Text(
@@ -113,7 +113,7 @@ fun ValorRecargaButtons(
                     containerColor = Color.LightGray.copy(alpha = 0.3f),
                     contentColor = Color.Black
                 ),
-                onClick = { TODO() }
+                onClick = { viewModel.handleEvent(RecargaContract.Event.OnValorFixoSelecionado(valorFixo = "150")) }
             ) {
 
                 Text(
@@ -137,7 +137,7 @@ fun ValorRecargaButtons(
                     containerColor = Color.LightGray.copy(alpha = 0.3f),
                     contentColor = Color.Black
                 ),
-                onClick = { TODO() }
+                onClick = { viewModel.handleEvent(RecargaContract.Event.OnValorFixoSelecionado(valorFixo = "200")) }
             ) {
 
                 Text(
@@ -156,11 +156,11 @@ fun ValorRecargaButtons(
                     containerColor = Color.LightGray.copy(alpha = 0.3f),
                     contentColor = Color.Black
                 ),
-                onClick = { TODO() }
+                onClick = { viewModel.handleEvent(RecargaContract.Event.OnValorFixoSelecionado(valorFixo = "250")) }
             ) {
 
                 Text(
-                    text = "Outro",
+                    text = "R$ 250",
                     fontSize = 16.sp
                 )
 
