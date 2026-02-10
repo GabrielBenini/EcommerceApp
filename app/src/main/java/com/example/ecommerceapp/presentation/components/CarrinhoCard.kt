@@ -36,7 +36,6 @@ import androidx.compose.ui.unit.sp
 import com.example.ecommerceapp.R
 import com.example.ecommerceapp.model.Produto
 import com.example.ecommerceapp.ui.theme.BlueAgi
-import com.google.common.cache.Weigher
 
 @Preview
 @Composable

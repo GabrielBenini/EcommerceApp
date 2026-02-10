@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.ksp)
     id("com.google.gms.google-services")
     kotlin("plugin.serialization")
 }
@@ -60,6 +61,9 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.compose.foundation.layout)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.credentials)
+    implementation(libs.androidx.credentials.play.services.auth)
+    implementation(libs.googleid)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -72,7 +76,6 @@ dependencies {
     // Firebase
     implementation(platform("com.google.firebase:firebase-bom:34.8.0"))
     implementation("com.google.firebase:firebase-analytics")
-    implementation(platform("com.google.firebase:firebase-bom:34.8.0"))
     implementation("com.google.firebase:firebase-auth")
 
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.10.0")
@@ -80,5 +83,13 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:2.9.6")
 
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.10.0")
+
+    val room_version = "2.8.4"
+
+    implementation("androidx.room:room-runtime:$room_version")
+    implementation("androidx.room:room-ktx:$room_version")
+    ksp("androidx.room:room-compiler:$room_version")
+    annotationProcessor("androidx.room:room-compiler:$room_version")
+
 
 }

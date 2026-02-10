@@ -1,10 +1,9 @@
 package com.example.ecommerceapp.model
 
 data class CarrinhoItem(
-    val produto: Produto,
-    val quantidade: Int = 1
-) {
-    fun calcularSubtotal(): Double {
-        return (produto.preco.replace(",", ".").toDouble()) * quantidade
-    }
-}
+    val produtoId: String,
+    val nome: String,
+    val price: Double,
+    val imagem: Int,
+    val quantidade: Int
+)
