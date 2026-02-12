@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Login
@@ -22,24 +21,33 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.ecommerceapp.navigation.Destination
 import com.example.ecommerceapp.ui.theme.BlueAgi
+import com.example.ecommerceapp.presentation.login.LoginContract
+import com.example.ecommerceapp.presentation.login.LoginContract.Event.OnEmailChange
+import com.example.ecommerceapp.presentation.login.LoginContract.Event.OnPasswordChange
+import com.example.ecommerceapp.presentation.login.LoginContract.Effect
 
 //@Preview(showBackground = true)
 @Composable
 fun LoginScreen(
     modifier: Modifier = Modifier,
-    navController: NavController
+    navController: NavController,
+    viewModel: LoginViewModel = viewModel()
 ) {
+
+    val state by viewModel.uiState.collectAsStateWithLifecycle()
 
     Column(
         modifier = modifier
@@ -63,8 +71,10 @@ fun LoginScreen(
         }
 
         OutlinedTextField(
-            value = "",
-            onValueChange = {},
+            value = state.email,
+            singleLine = true,
+            maxLines = 1,
+            onValueChange = {viewModel.handleEvent(OnEmailChange(it))},
             label = { Text(text = "Email") },
             modifier = Modifier
                 .fillMaxWidth()
@@ -72,8 +82,10 @@ fun LoginScreen(
         )
 
         OutlinedTextField(
-            value = "",
-            onValueChange = {},
+            value = state.password,
+            singleLine = true,
+            maxLines = 1,
+            onValueChange = {viewModel.handleEvent(OnPasswordChange(it))},
             label = { Text(text = "Senha") },
             modifier = Modifier
                 .fillMaxWidth()
@@ -103,7 +115,9 @@ fun LoginScreen(
                 contentColor = Color.White
             ),
             shape = RoundedCornerShape(12.dp),
-            onClick = { navController.navigate(Destination.Home) }
+            onClick = {
+                viewModel.login()
+            }
         ) {
 
             Text(
@@ -204,6 +218,20 @@ fun LoginScreen(
                     )
             )
 
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        viewModel.uiEffect.collect { effect ->
+            when (effect) {
+                is Effect.ShowLoginSuccess -> {
+                    navController.navigate(Destination.Home)
+                }
+
+                is Effect.ShowLoginError -> {
+                    // Handle login error, e.g., show a snackbar with the error message
+                }
+            }
         }
     }
 }
