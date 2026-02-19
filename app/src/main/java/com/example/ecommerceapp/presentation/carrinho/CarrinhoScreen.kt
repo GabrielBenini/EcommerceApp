@@ -3,6 +3,7 @@ package com.example.ecommerceapp.presentation.carrinho
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Lock
@@ -22,6 +23,7 @@ import androidx.navigation.NavHostController
 import com.example.ecommerceapp.model.Produto
 import com.example.ecommerceapp.presentation.components.CarrinhoCard
 import com.example.ecommerceapp.presentation.components.ValorTotalCard
+import com.example.ecommerceapp.presentation.produto.ProdutoViewModel
 import com.example.ecommerceapp.presentation.usuario.UsuarioViewModel
 import com.example.ecommerceapp.ui.theme.BlueAgi
 
@@ -31,6 +33,7 @@ fun CarrinhoScreen(
     navController: NavHostController,
     carrinhoViewModel: CarrinhoViewModel,
     usuarioViewModel: UsuarioViewModel,
+    produtoViewModel: ProdutoViewModel,
     modifier: Modifier = Modifier
 ) {
 
@@ -38,8 +41,13 @@ fun CarrinhoScreen(
     val itensCarrinho by carrinhoViewModel.itensCarrinho.observeAsState(emptyList())
     val subtotal by carrinhoViewModel.subtotal.observeAsState(0.0)
     val mensagem by carrinhoViewModel.mensagemCompra.observeAsState()
+    val todosProdutos by produtoViewModel.produtoList.observeAsState(emptyList())
 
     val snackbarHostState = remember { SnackbarHostState() }
+
+    LaunchedEffect(Unit) {
+        produtoViewModel.carregarProdutos()
+    }
 
     mensagem?.let { texto ->
         LaunchedEffect(texto) {
@@ -56,6 +64,7 @@ fun CarrinhoScreen(
                 .padding(paddingValues)
         ) {
 
+            // TÍTULO
             item {
                 Text(
                     text = "Meu Carrinho",
@@ -68,37 +77,37 @@ fun CarrinhoScreen(
                 )
             }
 
+            // MENSAGEM DE CARRINHO VAZIO
             item {
-                Column(modifier = Modifier.padding(horizontal = 16.dp)) {
-                    if (itensCarrinho.isEmpty()) {
-                        Text(
-                            text = "Seu carrinho está vazio 🛒",
-                            color = Color.Gray,
-                            modifier = Modifier.padding(vertical = 20.dp)
-                        )
-                    } else {
-                        itensCarrinho.forEach { item ->
-                            CarrinhoCard(
-                                produto = Produto(
-                                    id = item.produtoId,
-                                    nome = item.nome,
-                                    imagemUrl = "",
-                                    preco = item.price,
-                                    descricao = ""
-                                ),
-                                qtdeProduto = item.quantidade.toString(),
-                                onAdd = {
-                                    carrinhoViewModel.aumentarQuantidade(item) // ✅ CORRIGIDO
-                                },
-                                onRemove = {
-                                    carrinhoViewModel.diminuirQuantidade(item) // ✅ CORRIGIDO
-                                }
-                            )
-                        }
-                    }
+                if (itensCarrinho.isEmpty()) {
+                    Text(
+                        text = "Seu carrinho está vazio 🛒",
+                        color = Color.Gray,
+                        modifier = Modifier.padding(vertical = 20.dp, horizontal = 16.dp)
+                    )
                 }
             }
 
+            // ✅ LISTA DE PRODUTOS NO CARRINHO
+            items(itensCarrinho) { item ->
+                val produtoCompleto = todosProdutos.find { it.id == item.produtoId }
+
+                if (produtoCompleto != null) {
+                    CarrinhoCard(
+                        produto = produtoCompleto,
+                        qtdeProduto = item.quantidade.toString(),
+                        onAdd = {
+                            carrinhoViewModel.aumentarQuantidade(item)
+                        },
+                        onRemove = {
+                            carrinhoViewModel.diminuirQuantidade(item)
+                        },
+                        modifier = Modifier.padding(horizontal = 16.dp)
+                    )
+                }
+            }
+
+            // RESUMO DO PEDIDO
             if (itensCarrinho.isNotEmpty()) {
                 item {
                     Column(modifier = Modifier.padding(16.dp)) {
@@ -115,6 +124,7 @@ fun CarrinhoScreen(
                     }
                 }
 
+                // BOTÃO CONFIRMAR COMPRA
                 item {
                     Button(
                         modifier = Modifier

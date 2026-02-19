@@ -11,10 +11,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.example.ecommerceapp.model.Produto
 import com.example.ecommerceapp.ui.theme.BlueAgi
 
@@ -42,13 +45,14 @@ fun CarrinhoCard(
         ) {
 
             AsyncImage(
-                model = produto.imagemUrl,
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(produto.imagemUrl)
+                    .build(),
                 contentDescription = produto.nome,
+                contentScale = ContentScale.Crop,
                 modifier = Modifier
-                    .size(100.dp)
-                    .weight(1f)
-                    .clip(RoundedCornerShape(8.dp)),
-                contentScale = androidx.compose.ui.layout.ContentScale.Crop
+                    .size(84.dp)
+                    .clip(RoundedCornerShape(8.dp))
             )
 
             Column(

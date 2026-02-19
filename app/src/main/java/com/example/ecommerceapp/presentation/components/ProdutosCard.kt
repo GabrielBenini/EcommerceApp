@@ -42,14 +42,6 @@ fun ProdutosCard(
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(produto.imagemUrl)
-                    .listener(
-                        onError = { _, result ->
-                            Log.e("COIL", "Erro: ${result.throwable.message}")
-                        },
-                        onSuccess = { _, _ ->
-                            Log.d("COIL", "Imagem carregada com sucesso!")
-                        }
-                    )
                     .build(),
                 contentDescription = produto.nome,
                 contentScale = ContentScale.Crop,

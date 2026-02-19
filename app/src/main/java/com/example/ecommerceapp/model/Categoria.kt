@@ -8,5 +8,5 @@ data class Categoria(
     val id: String = "",
     val nome: String = "",
     val descricao: String = "",
-    val imagemUrl: String = ""     // URL da imagem no Storage (opcional)
+    val imagemUrl: String = ""
 )

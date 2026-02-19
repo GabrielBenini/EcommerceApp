@@ -33,6 +33,7 @@ import com.example.ecommerceapp.presentation.recarga.RecargaScreen
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.Serializable
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.ecommerceapp.presentation.produto.ProdutoViewModel
 import com.example.ecommerceapp.presentation.usuario.UsuarioViewModel
 import kotlin.reflect.typeOf
 
@@ -40,6 +41,8 @@ import kotlin.reflect.typeOf
 fun AppMainRoute() {
 
     val navController = rememberNavController()
+
+    val produtoViewModel : ProdutoViewModel = viewModel()
 
     val usuarioViewModel: UsuarioViewModel = viewModel()
 
@@ -146,7 +149,8 @@ fun AppMainRoute() {
                 CarrinhoScreen(
                     navController = navController,
                     carrinhoViewModel = carrinhoViewModel,
-                    usuarioViewModel = usuarioViewModel
+                    usuarioViewModel = usuarioViewModel,
+                    produtoViewModel = produtoViewModel
                 )
             }
 

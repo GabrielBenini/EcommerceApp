@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 data class HistoricoCompra(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
-    val usuarioId: String, // ✅ ADICIONE esta linha
+    val usuarioId: String,
     val dataCompra: Long,
     val itens: List<CarrinhoItem>,
     val total: Double
