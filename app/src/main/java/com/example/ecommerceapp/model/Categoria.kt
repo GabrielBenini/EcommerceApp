@@ -4,9 +4,9 @@ import android.annotation.SuppressLint
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 
-data class Categoria @SuppressLint("SupportAnnotationUsage") constructor(
-
-    @DrawableRes val imagem: Int,
-    @StringRes val nome: String
-
+data class Categoria(
+    val id: String = "",
+    val nome: String = "",
+    val descricao: String = "",
+    val imagemUrl: String = ""     // URL da imagem no Storage (opcional)
 )

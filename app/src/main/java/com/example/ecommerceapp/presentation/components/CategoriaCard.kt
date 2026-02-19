@@ -1,6 +1,7 @@
 package com.example.ecommerceapp.presentation.components
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -25,6 +26,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import com.example.ecommerceapp.R
 import com.example.ecommerceapp.model.Categoria
 
@@ -41,6 +43,7 @@ fun CategoriaCard(
         modifier = Modifier
             .padding(8.dp)
             .size(90.dp)
+            .clickable{ onClick() }
     ) {
 
         Column(
@@ -49,12 +52,11 @@ fun CategoriaCard(
 
             Box() {
 
-                Image(
-                    painterResource(categoria.imagem),
-                    contentDescription = "Category Image",
+                AsyncImage(
+                    model = categoria.imagemUrl,  // agora vem do Firestore
+                    contentDescription = "Imagem da categoria",
                     contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .fillMaxSize()
+                    modifier = Modifier.fillMaxSize(),
                 )
 
                 Row(
@@ -75,10 +77,4 @@ fun CategoriaCard(
 
     }
 
-}
-
-@Preview
-@Composable
-fun Preview() {
-    CategoriaCard(categoria = Categoria(R.drawable.ic_launcher_foreground, "Todos"))
 }

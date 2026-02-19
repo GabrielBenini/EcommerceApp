@@ -22,6 +22,8 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -34,10 +36,26 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.ActivityNavigator
 import androidx.navigation.NavController
 import com.example.ecommerceapp.navigation.Destination
+import com.example.ecommerceapp.presentation.usuario.UsuarioViewModel
 
-@Preview
+//@Preview
 @Composable
-fun AgiStoreHeader(navController: NavController? = null) {
+fun AgiStoreHeader(
+    usuarioViewModel: UsuarioViewModel,
+    navController: NavController? = null,
+
+) {
+    val nomeUsuario by usuarioViewModel.nomeUsuario.observeAsState("Usuário")
+    val saldo by usuarioViewModel.saldo.observeAsState(0.0)
+
+    fun obterIniciais(nome: String): String {
+        val palavras = nome.trim().split(" ").filter { it.isNotEmpty() }
+        return when {
+            palavras.isEmpty() -> "?"
+            palavras.size == 1 -> palavras[0].take(2).uppercase()
+            else -> "${palavras.first().first()}${palavras.last().first()}".uppercase()
+        }
+    }
     Column(
         modifier = Modifier
             .statusBarsPadding()
@@ -55,14 +73,11 @@ fun AgiStoreHeader(navController: NavController? = null) {
             .padding(24.dp),
     ) {
         Row(
-            modifier = Modifier
-                .fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Column(
-                modifier = Modifier
-            ){
+            Column {
                 Text(
                     text = "Olá, colaborador! 👋",
                     fontSize = 12.sp,
@@ -79,17 +94,15 @@ fun AgiStoreHeader(navController: NavController? = null) {
 
             Row(
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
+                verticalAlignment = Alignment.CenterVertically
             ) {
-
                 Surface(
                     shape = RoundedCornerShape(50),
                     color = Color.White,
                     modifier = Modifier
                         .size(44.dp)
                         .clickable {
-                                navController?.navigate(Destination.Perfil)
+                            navController?.navigate(Destination.Perfil)
                         }
                 ) {
                     Box(
@@ -97,7 +110,7 @@ fun AgiStoreHeader(navController: NavController? = null) {
                         modifier = Modifier.fillMaxSize()
                     ) {
                         Text(
-                            text = "GB",
+                            text = obterIniciais(nomeUsuario),
                             fontSize = 14.sp,
                             fontWeight = FontWeight.Bold,
                             color = Color(0xFF0066CC)
@@ -109,12 +122,9 @@ fun AgiStoreHeader(navController: NavController? = null) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Card de Saldo
         SaldoCard(
             navController = navController,
-            saldo = "R$ 156,80"
+            saldo = "R$ ${String.format("%.2f", saldo)}"
         )
     }
 }
-
-

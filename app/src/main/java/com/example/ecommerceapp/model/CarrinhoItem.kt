@@ -5,5 +5,5 @@ data class CarrinhoItem(
     val nome: String,
     val price: Double,
     val imagem: Int,
-    val quantidade: Int
+    var quantidade: Int
 )

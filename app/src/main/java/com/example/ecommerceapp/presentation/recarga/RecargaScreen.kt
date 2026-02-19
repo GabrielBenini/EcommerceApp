@@ -37,12 +37,14 @@ import com.example.ecommerceapp.presentation.components.BottomBar
 import com.example.ecommerceapp.presentation.components.MetodoPagamentoCard
 import com.example.ecommerceapp.presentation.components.ValorRecargaButtons
 import com.example.ecommerceapp.presentation.components.ValorTotalRecargaCard
+import com.example.ecommerceapp.presentation.usuario.UsuarioViewModel
 import com.example.ecommerceapp.ui.theme.BlueAgi
 
 //@Preview
 @Composable
 fun RecargaScreen(
     navController: NavHostController,
+    usuarioViewModel: UsuarioViewModel,
     modifier: Modifier = Modifier,
     viewModel: RecargaViewModel = viewModel()
 ) {
@@ -50,7 +52,6 @@ fun RecargaScreen(
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
     Column(modifier = Modifier.fillMaxSize()) {
-
 
         LazyColumn(
             modifier = Modifier
@@ -127,7 +128,6 @@ fun RecargaScreen(
             }
 
             item {
-
                 ValorTotalRecargaCard(
                     titulo = "Valor da Recarga",
                     subtitulo = "Taxa",
@@ -136,28 +136,30 @@ fun RecargaScreen(
                     taxaServicoValor = "Grátis",
                     totalValor = state.valorPersonalizado
                 )
-
             }
 
             item {
-
                 Button(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(vertical = 16.dp),
-                    onClick = { TODO() },
+                    onClick = {
+                        // ✅ AQUI A MÁGICA ACONTECE!
+                        val valor = state.valorPersonalizado.toDoubleOrNull() ?: 0.0
+                        if (valor > 0) {
+                            usuarioViewModel.adicionarSaldo(valor)
+                            navController.popBackStack()
+                        }
+                    },
                     shape = RoundedCornerShape(10.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = Color(BlueAgi.value)
                     )
                 ) {
-
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier
-                            .padding(4.dp)
+                        modifier = Modifier.padding(4.dp)
                     ) {
-
                         Icon(
                             imageVector = Icons.Default.Lock,
                             contentDescription = "Ícone de cadeado",
@@ -172,11 +174,8 @@ fun RecargaScreen(
                             fontWeight = FontWeight.SemiBold,
                             fontSize = 16.sp
                         )
-
                     }
-
                 }
-
             }
         }
     }

@@ -1,5 +1,6 @@
 package com.example.ecommerceapp.presentation.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -24,14 +25,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-@Preview
+
 @Composable
 fun PerfilCard(
+    icon: ImageVector,
+    iconColor: Color,
+    iconBackgroundColor: Color,
+    text: String,
     modifier: Modifier = Modifier,
-    icon: ImageVector? = null,
-    iconColor: Color? = null,
-    text: String = "",
-    iconBackgroundColor: Color? = null
+    onClick: (() -> Unit)? = null
 
 ) {
 
@@ -39,6 +41,13 @@ fun PerfilCard(
         modifier = modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp)
+            .then(
+                if (onClick != null) {
+                    Modifier.clickable { onClick() }
+                } else {
+                    Modifier
+                }
+            )
     ) {
 
 

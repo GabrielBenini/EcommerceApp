@@ -1,11 +1,15 @@
 package com.example.ecommerceapp.navigation
 
+import android.app.Application
 import android.net.Uri
 import android.os.Bundle
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -15,6 +19,9 @@ import androidx.navigation.toRoute
 import com.example.ecommerceapp.model.Produto
 import com.example.ecommerceapp.presentation.carrinho.CarrinhoScreen
 import com.example.ecommerceapp.presentation.cadastro.CadastroScreen
+import com.example.ecommerceapp.presentation.carrinho.CarrinhoViewModel
+import com.example.ecommerceapp.presentation.carrinho.CarrinhoViewModelFactory
+import com.example.ecommerceapp.presentation.categoria.ProdutosPorCategoriaScreen
 import com.example.ecommerceapp.presentation.components.AgiStoreHeader
 import com.example.ecommerceapp.presentation.components.BottomBar
 import com.example.ecommerceapp.presentation.detalhes.ProdutoDetalhesScreen
@@ -25,12 +32,24 @@ import com.example.ecommerceapp.presentation.perfil.PerfilScreen
 import com.example.ecommerceapp.presentation.recarga.RecargaScreen
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.Serializable
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.ecommerceapp.presentation.usuario.UsuarioViewModel
 import kotlin.reflect.typeOf
 
 @Composable
 fun AppMainRoute() {
 
     val navController = rememberNavController()
+
+    val usuarioViewModel: UsuarioViewModel = viewModel()
+
+    val carrinhoViewModel: CarrinhoViewModel =
+        viewModel(
+            factory = CarrinhoViewModelFactory(
+                LocalContext.current.applicationContext as Application,
+                usuarioViewModel
+            )
+        )
 
     val currentBackStackEntry = navController
         .currentBackStackEntryAsState().value
@@ -50,10 +69,15 @@ fun AppMainRoute() {
         Destination.Cadastro::class.qualifiedName,
         Destination.Details::class.qualifiedName
     )
+
     Scaffold(
         topBar = {
             if (currentRoute !in hideTopBarRoutes && !isDetailsScreen) {
-                AgiStoreHeader(navController = navController)
+                AgiStoreHeader(
+                    navController = navController,
+                    usuarioViewModel = usuarioViewModel
+
+                )
             }
         },
         bottomBar = {
@@ -70,28 +94,37 @@ fun AppMainRoute() {
         ) {
 
             composable<Destination.Login> {
-                LoginScreen(navController = navController)
+                LoginScreen(
+                    usuarioViewModel = usuarioViewModel,
+                    navController = navController
+                )
             }
 
             composable<Destination.Cadastro> {
-                CadastroScreen(navController = navController)
+                CadastroScreen(
+                    usuarioViewModel = usuarioViewModel,
+                    navController = navController
+                )
             }
 
             composable<Destination.Home> {
                 HomeScreen(
+                    navController = navController,
                     navigateToDetailScreen = { produto ->
                         navController.navigate(Destination.Details(produto))
                     }
                 )
             }
 
-            composable<Destination.Details> (
-                typeMap = mapOf(typeOf<Produto>() to ProductNavType))
+            composable<Destination.Details>(
+                typeMap = mapOf(typeOf<Produto>() to ProductNavType)
+            )
             { backStackEntry ->
                 val produto = backStackEntry.toRoute<Destination.Details>().produto
                 ProdutoDetalhesScreen(
                     produto = produto,
                     navController = navController,
+                    carrinhoViewModel = carrinhoViewModel,
                     navigateBack = {
                         navController.popBackStack()
                         true
@@ -99,20 +132,43 @@ fun AppMainRoute() {
                 )
             }
 
+            composable<Destination.ProdutosPorCategoria> { backStackEntry ->
+                val categoriaId =
+                    backStackEntry.toRoute<Destination.ProdutosPorCategoria>().categoriaId
+
+                ProdutosPorCategoriaScreen(
+                    navController = navController,
+                    categoriaId = categoriaId
+                )
+            }
+
             composable<Destination.Carrinho> {
-                CarrinhoScreen(navController = navController)
+                CarrinhoScreen(
+                    navController = navController,
+                    carrinhoViewModel = carrinhoViewModel,
+                    usuarioViewModel = usuarioViewModel
+                )
             }
 
             composable<Destination.Historico> {
-                HistoricoScreen(navController = navController)
+                HistoricoScreen(
+                    navController = navController,
+                    carrinhoViewModel = carrinhoViewModel
+                )
             }
 
             composable<Destination.Perfil> {
-                PerfilScreen(navController = navController)
+                PerfilScreen(
+                    usuarioViewModel = usuarioViewModel,
+                    navController = navController
+                )
             }
 
             composable<Destination.Recarga> {
-                RecargaScreen(navController = navController)
+                RecargaScreen(
+                    navController = navController,
+                    usuarioViewModel = usuarioViewModel
+                )
             }
         }
 
@@ -162,4 +218,7 @@ sealed interface Destination {
 
     @Serializable
     data object Cadastro : Destination
+
+    @Serializable
+    data class ProdutosPorCategoria(val categoriaId: String) : Destination
 }

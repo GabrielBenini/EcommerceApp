@@ -2,6 +2,7 @@ package com.example.ecommerceapp.presentation.home
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
@@ -25,11 +26,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.lazy.staggeredgrid.items
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
-import com.example.ecommerceapp.data.CategoriaData
-import com.example.ecommerceapp.data.ProdutoData
 import com.example.ecommerceapp.model.Produto
 import com.example.ecommerceapp.presentation.components.AgiStoreHeader
 import com.example.ecommerceapp.presentation.components.BottomBar
@@ -37,17 +41,37 @@ import com.example.ecommerceapp.presentation.components.CategoriaCard
 import com.example.ecommerceapp.presentation.components.DestaqueCard
 import com.example.ecommerceapp.presentation.components.ProdutosCard
 import com.example.ecommerceapp.presentation.components.SearchField
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.ecommerceapp.presentation.categoria.CategoriaViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.compose.runtime.livedata.observeAsState
+import com.example.ecommerceapp.navigation.Destination
+import com.example.ecommerceapp.presentation.produto.ProdutoViewModel
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
-    categoria: CategoriaData = CategoriaData,
-    produto: ProdutoData = ProdutoData,
     navigateToDetailScreen: (Produto) -> Unit = {},
+    produtoViewModel: ProdutoViewModel = viewModel(),
+    navController: NavController,
+    categoriaViewModel: CategoriaViewModel = viewModel()
 ) {
 
+    val produtos = produtoViewModel.filteredList.observeAsState(emptyList())
+    val produtosLoading = produtoViewModel.isLoading.observeAsState(false)
+    val categorias = categoriaViewModel.categoriaList.observeAsState(emptyList())
+    val categoriasLoading = categoriaViewModel.isLoading.observeAsState(false)
+    val isGlobalLoading = produtosLoading.value || categoriasLoading.value
+
+    val searchQuery by produtoViewModel.searchQuery
+    val filteredProducts by produtoViewModel.filteredList.observeAsState(emptyList())
+
+    LaunchedEffect(Unit) {
+        categoriaViewModel.carregarCategorias()
+        produtoViewModel.carregarProdutos()
+    }
 
     LazyColumn(
         modifier = Modifier
@@ -55,7 +79,13 @@ fun HomeScreen(
     ) {
 
         item {
-            SearchField()
+            SearchField(
+                query = produtoViewModel.searchQuery.value,
+                onQueryChange = {
+                    produtoViewModel.searchQuery.value = it
+                    produtoViewModel.atualizarFiltro()
+                }
+            )
         }
 
         item {
@@ -71,22 +101,30 @@ fun HomeScreen(
         }
 
         item {
-
-            LazyRow(
-                modifier = Modifier
-                    .padding(start = 16.dp)
-            ) {
-
-                items(categoria.categoriaList) { item ->
-                    CategoriaCard(
-                        categoria = item,
-                        modifier = Modifier
+            if (categoriasLoading.value) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(100.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator(
+                        color = MaterialTheme.colorScheme.primary
                     )
-
                 }
-
+            } else {
+                LazyRow {
+                    items(categorias.value) { categoria ->
+                        CategoriaCard(
+                            categoria = categoria,
+                            modifier = Modifier,
+                            onClick = {
+                                navController.navigate(Destination.ProdutosPorCategoria(categoria.id))
+                            }
+                        )
+                    }
+                }
             }
-
         }
 
         item {
@@ -150,24 +188,30 @@ fun HomeScreen(
 
         item {
 
-            FlowRow(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 12.dp),
-                maxItemsInEachRow = 2
-            ) {
-
-                produto.productList.forEach { item ->
-
-                    ProdutosCard(
-                        onClick = {
-                            navigateToDetailScreen(item)
-                        },
-                        produto = item,
-                        modifier = Modifier
-                            .padding(8.dp)
-                            .weight(1f)
+            if (produtosLoading.value) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator(
+                        color = MaterialTheme.colorScheme.primary
                     )
+                }
+            } else {
+                FlowRow(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 12.dp),
+                    maxItemsInEachRow = 2
+                ) {
+                    filteredProducts.forEach { item ->
+                        ProdutosCard(
+                            onClick = { navigateToDetailScreen(item) },
+                            produto = item,
+                            modifier = Modifier.padding(all = 8.dp)
+                        )
+                    }
                 }
             }
 

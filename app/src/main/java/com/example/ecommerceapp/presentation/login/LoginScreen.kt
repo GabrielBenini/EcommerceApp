@@ -34,16 +34,16 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.ecommerceapp.navigation.Destination
 import com.example.ecommerceapp.ui.theme.BlueAgi
-import com.example.ecommerceapp.presentation.login.LoginContract
 import com.example.ecommerceapp.presentation.login.LoginContract.Event.OnEmailChange
 import com.example.ecommerceapp.presentation.login.LoginContract.Event.OnPasswordChange
 import com.example.ecommerceapp.presentation.login.LoginContract.Effect
+import com.example.ecommerceapp.presentation.usuario.UsuarioViewModel
 
-//@Preview(showBackground = true)
 @Composable
 fun LoginScreen(
     modifier: Modifier = Modifier,
     navController: NavController,
+    usuarioViewModel: UsuarioViewModel, // ✅ Adicione este parâmetro
     viewModel: LoginViewModel = viewModel()
 ) {
 
@@ -57,16 +57,14 @@ fun LoginScreen(
     ) {
 
         Row(
-            modifier = Modifier
-                .fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center
         ) {
             Text(
                 text = "AgiStore",
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
-                modifier = Modifier
-                    .padding(vertical = 46.dp)
+                modifier = Modifier.padding(vertical = 46.dp)
             )
         }
 
@@ -74,7 +72,7 @@ fun LoginScreen(
             value = state.email,
             singleLine = true,
             maxLines = 1,
-            onValueChange = {viewModel.handleEvent(OnEmailChange(it))},
+            onValueChange = { viewModel.handleEvent(OnEmailChange(it)) },
             label = { Text(text = "Email") },
             modifier = Modifier
                 .fillMaxWidth()
@@ -85,10 +83,9 @@ fun LoginScreen(
             value = state.password,
             singleLine = true,
             maxLines = 1,
-            onValueChange = {viewModel.handleEvent(OnPasswordChange(it))},
+            onValueChange = { viewModel.handleEvent(OnPasswordChange(it)) },
             label = { Text(text = "Senha") },
-            modifier = Modifier
-                .fillMaxWidth()
+            modifier = Modifier.fillMaxWidth()
         )
 
         Row(
@@ -97,7 +94,6 @@ fun LoginScreen(
                 .padding(vertical = 16.dp),
             horizontalArrangement = Arrangement.End
         ) {
-
             Text(
                 text = "Esqueceu a senha?",
                 fontSize = 14.sp,
@@ -119,13 +115,10 @@ fun LoginScreen(
                 viewModel.login()
             }
         ) {
-
             Text(
-                modifier = Modifier
-                    .padding(vertical = 8.dp),
+                modifier = Modifier.padding(vertical = 8.dp),
                 text = "Entrar"
             )
-
         }
 
         HorizontalDivider(thickness = 1.dp)
@@ -139,7 +132,6 @@ fun LoginScreen(
                 .padding(top = 44.dp)
                 .fillMaxWidth()
         ) {
-
             Row(
                 modifier = Modifier
                     .padding(16.dp)
@@ -147,21 +139,16 @@ fun LoginScreen(
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-
                 Icon(
-                    modifier = Modifier
-                        .padding(end = 8.dp),
+                    modifier = Modifier.padding(end = 8.dp),
                     imageVector = Icons.Default.Search,
                     contentDescription = "Entrar com Google"
                 )
-
                 Text(
                     text = "Continuar com Google",
                     fontWeight = FontWeight.SemiBold
                 )
-
             }
-
         }
 
         Card(
@@ -173,7 +160,6 @@ fun LoginScreen(
                 .padding(top = 20.dp)
                 .fillMaxWidth()
         ) {
-
             Row(
                 modifier = Modifier
                     .padding(16.dp)
@@ -181,55 +167,58 @@ fun LoginScreen(
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-
                 Icon(
-                    modifier = Modifier
-                        .padding(end = 8.dp),
+                    modifier = Modifier.padding(end = 8.dp),
                     imageVector = Icons.Default.Login,
                     contentDescription = "Entrar com Apple"
                 )
-
                 Text(
                     text = "Continuar com Apple",
                     fontWeight = FontWeight.SemiBold
                 )
-
             }
-
         }
 
-
         Row(
-            modifier = Modifier
-                .padding(top = 16.dp)
+            modifier = Modifier.padding(top = 16.dp)
         ) {
-
-            Text(
-                text = "Não tem uma conta?"
-            )
-
+            Text(text = "Não tem uma conta?")
             Text(
                 text = " Criar agora ",
                 fontWeight = FontWeight.SemiBold,
                 color = Color(BlueAgi.value),
-                modifier = Modifier
-                    .clickable(
-                        onClick = { navController.navigate(Destination.Cadastro) }
-                    )
+                modifier = Modifier.clickable(
+                    onClick = { navController.navigate(Destination.Cadastro) }
+                )
             )
-
         }
     }
 
+    // ✅ Observar efeitos do login
     LaunchedEffect(Unit) {
         viewModel.uiEffect.collect { effect ->
             when (effect) {
                 is Effect.ShowLoginSuccess -> {
-                    navController.navigate(Destination.Home)
+                    // ✅ AQUI: Fazer login no UsuarioViewModel
+                    val email = state.email
+                    val userId = "user_${email.substringBefore("@")}" // Gera ID único
+                    val nome = email.substringBefore("@").capitalize() // Nome baseado no email
+
+                    usuarioViewModel.fazerLogin(
+                        userId = userId,
+                        nome = nome,
+                        email = email,
+                        saldoInicial = 100.0 // ✅ Saldo inicial de boas-vindas
+                    )
+
+                    navController.navigate(Destination.Home) {
+                        // Limpar backstack para não voltar ao login
+                        popUpTo(Destination.Login) { inclusive = true }
+                    }
                 }
 
                 is Effect.ShowLoginError -> {
-                    // Handle login error, e.g., show a snackbar with the error message
+                    // TODO: Mostrar erro (Snackbar, Toast, etc)
                 }
             }
         }

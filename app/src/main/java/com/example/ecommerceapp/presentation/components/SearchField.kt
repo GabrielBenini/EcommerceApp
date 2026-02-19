@@ -14,35 +14,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.ecommerceapp.presentation.home.HomeContract
-import com.example.ecommerceapp.presentation.home.HomeContract.Event.OnSearchProductChange
-import com.example.ecommerceapp.presentation.home.HomeContract.Effect
-import com.example.ecommerceapp.presentation.home.HomeContract.State
-import com.example.ecommerceapp.presentation.home.HomeViewModel
 
-
-
-//@Preview
 @Composable
 fun SearchField(
-    modifier: Modifier = Modifier,
-    viewModel: HomeViewModel = viewModel()
+    query: String,                       // 🔹 texto atual de busca
+    onQueryChange: (String) -> Unit,     // 🔹 callback quando digita algo
+    modifier: Modifier = Modifier
 ) {
-
-    val uiState = viewModel.uiState.collectAsStateWithLifecycle()
-
     Row(
-        modifier = Modifier
+        modifier = modifier.fillMaxWidth()
     ) {
-
-
         OutlinedTextField(
             modifier = Modifier
                 .padding(20.dp)
                 .fillMaxWidth(),
-
             colors = OutlinedTextFieldDefaults.colors(
                 focusedBorderColor = Color(0xFF0066CC),
                 unfocusedBorderColor = Color(0xFFE2E8F0),
@@ -55,17 +40,15 @@ fun SearchField(
                 unfocusedPlaceholderColor = Color(0xFF94A3B8),
                 focusedLeadingIconColor = Color(0xFF0066CC),
                 unfocusedLeadingIconColor = Color(0xFF94A3B8),
-                // Adicione essas linhas:
                 errorBorderColor = Color.Transparent,
                 errorContainerColor = Color(0xFFF1F5F9),
                 errorCursorColor = Color(0xFF0066CC)
             ),
-
             singleLine = true,
             shape = RoundedCornerShape(20.dp),
-            value = uiState.value.searchProduct,
-            onValueChange = { viewModel.handleEvent(OnSearchProductChange(it)) },
-            label = { Text(text = "Buscar Produtos... ") },
+            value = query,                                    // texto mostrado
+            onValueChange = { text -> onQueryChange(text) },  // atualiza o texto
+            label = { Text(text = "Buscar produtos...") },
             leadingIcon = {
                 Icon(
                     imageVector = Icons.Default.Search,
@@ -73,7 +56,5 @@ fun SearchField(
                 )
             }
         )
-
     }
 }
-

@@ -1,16 +1,6 @@
 package com.example.ecommerceapp.presentation.detalhes
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -18,64 +8,36 @@ import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material.icons.filled.ShoppingCart
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.FilledIconButton
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.IconButtonDefaults
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Snackbar
-import androidx.compose.material3.SnackbarHost
-import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.NavHostController
-import com.example.ecommerceapp.R
+import coil.compose.AsyncImage
 import com.example.ecommerceapp.model.Produto
+import com.example.ecommerceapp.navigation.Destination
+import com.example.ecommerceapp.presentation.carrinho.CarrinhoViewModel
+import com.example.ecommerceapp.presentation.detalhes.ProdutoDetalhesContract.Event.OnQtdProdutoChange
 import com.example.ecommerceapp.ui.theme.BlueAgi
 import com.example.ecommerceapp.ui.theme.Verde
-import com.example.ecommerceapp.presentation.detalhes.ProdutoDetalhesContract.Event
-import com.example.ecommerceapp.presentation.detalhes.ProdutoDetalhesContract.State
-import com.example.ecommerceapp.presentation.detalhes.ProdutoDetalhesContract.Effect.ShowSnackbar
-import com.example.ecommerceapp.presentation.detalhes.ProdutoDetalhesContract.Effect
-import com.example.ecommerceapp.presentation.detalhes.ProdutoDetalhesContract.Event.OnQtdProdutoChange
 
-//@Preview(showBackground = true)
 @Composable
 fun ProdutoDetalhesScreen(
     navController: NavController,
+    produto: Produto,
     modifier: Modifier = Modifier,
-    produto: Produto = Produto(
-        1,
-        "Capinha de Celular Azul",
-        R.drawable.capinhaazul,
-        "59,90",
-        "Capinha de silicone azul para celular, proteção e estilo para o seu dispositivo."
-    ),
+    carrinhoViewModel: CarrinhoViewModel,
     navigateBack: () -> Boolean = { false },
     viewModel: ProdutoDetalhesViewModel = viewModel()
 ) {
-
     val state = viewModel.uiState.collectAsStateWithLifecycle()
-
 
     Column(
         modifier = modifier
@@ -83,17 +45,14 @@ fun ProdutoDetalhesScreen(
     ) {
 
         Surface(
-            modifier = modifier
-                .height(250.dp),
+            modifier = modifier.height(250.dp),
             color = Color(0xFFE2EFFF)
         ) {
-
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp)
             ) {
-
                 FilledIconButton(
                     onClick = { navigateBack() },
                     colors = IconButtonDefaults.iconButtonColors(
@@ -101,48 +60,42 @@ fun ProdutoDetalhesScreen(
                         contentColor = Color.Black
                     )
                 ) {
-
                     Icon(
                         imageVector = Icons.Default.ArrowBackIosNew,
                         contentDescription = "Voltar"
                     )
-
                 }
 
                 Spacer(Modifier.weight(1f))
+
                 FilledIconButton(
                     onClick = {
-                        // Lógica para favoritar o produto
                     },
                     colors = IconButtonDefaults.iconButtonColors(
                         containerColor = Color.White,
                         contentColor = Color.Black
                     )
                 ) {
-
                     Icon(
                         imageVector = Icons.Default.FavoriteBorder,
                         contentDescription = "Favoritar"
                     )
-
                 }
-
             }
 
             Column(
-                modifier = Modifier
-                    .fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
-
-
-                Image(
-                    painterResource(produto.imagem),
-                    contentDescription = "Imagem Produto"
+                AsyncImage(
+                    model = produto.imagemUrl,
+                    contentDescription = produto.nome,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .size(220.dp)
+                        .padding(top = 16.dp)
                 )
-
-
             }
         }
 
@@ -160,7 +113,7 @@ fun ProdutoDetalhesScreen(
             Spacer(Modifier.weight(1f))
 
             Text(
-                text = produto.preco,
+                text = "R$ %.2f".format(produto.preco),
                 fontSize = 20.sp,
                 fontWeight = FontWeight.SemiBold,
                 color = Color(BlueAgi.value)
@@ -168,8 +121,7 @@ fun ProdutoDetalhesScreen(
         }
 
         Text(
-            modifier = Modifier
-                .padding(horizontal = 16.dp),
+            modifier = Modifier.padding(horizontal = 16.dp),
             text = "• Em estoque",
             color = Color(Verde.value)
         )
@@ -181,30 +133,19 @@ fun ProdutoDetalhesScreen(
                 containerColor = Color.LightGray.copy(alpha = 0.1f)
             )
         ) {
-
-            Column(
-                modifier = Modifier
-                    .padding(16.dp)
-            ) {
-
+            Column(modifier = Modifier.padding(16.dp)) {
                 Text(
-                    modifier = Modifier
-                        .padding(bottom = 8.dp),
+                    modifier = Modifier.padding(bottom = 8.dp),
                     text = "Descrição",
                     fontWeight = FontWeight.SemiBold
                 )
 
-                Text(
-                    text = produto.descricao
-                )
-
+                Text(text = produto.descricao)
             }
-
         }
 
         Text(
-            modifier = Modifier
-                .padding(horizontal = 16.dp),
+            modifier = Modifier.padding(horizontal = 16.dp),
             text = "Quantidade",
             fontWeight = FontWeight.SemiBold,
             fontSize = 18.sp
@@ -215,89 +156,66 @@ fun ProdutoDetalhesScreen(
                 .padding(horizontal = 16.dp, vertical = 16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-
             IconButton(
                 onClick = {
-                    viewModel.handleEvent(OnQtdProdutoChange(viewModel.uiState.value.qtdProduto - 1))
+                    viewModel.handleEvent(OnQtdProdutoChange(state.value.qtdProduto - 1))
                 },
                 colors = IconButtonDefaults.iconButtonColors(
                     containerColor = Color.Gray.copy(alpha = 0.1f)
                 ),
-                modifier = Modifier
-                    .size(50.dp)
+                modifier = Modifier.size(50.dp)
             ) {
-
                 Icon(
                     imageVector = Icons.Default.Remove,
-                    contentDescription = "Remove Button"
+                    contentDescription = "Remover"
                 )
-
             }
-
 
             Text(
                 text = "${state.value.qtdProduto}",
                 fontSize = 20.sp,
                 fontWeight = FontWeight.SemiBold,
-                modifier = Modifier
-                    .padding(horizontal = 22.dp)
+                modifier = Modifier.padding(horizontal = 22.dp)
             )
 
             IconButton(
                 onClick = {
-                    viewModel.handleEvent(OnQtdProdutoChange(viewModel.uiState.value.qtdProduto + 1))
-
+                    viewModel.handleEvent(OnQtdProdutoChange(state.value.qtdProduto + 1))
                 },
                 colors = IconButtonDefaults.iconButtonColors(
                     containerColor = Color.Gray.copy(alpha = 0.1f)
                 ),
-                modifier = Modifier
-                    .size(50.dp)
+                modifier = Modifier.size(50.dp)
             ) {
-
                 Icon(
                     imageVector = Icons.Default.Add,
-                    contentDescription = "Add Button"
+                    contentDescription = "Adicionar"
                 )
-
             }
-
         }
-
 
         HorizontalDivider(thickness = 1.dp)
 
         Row(
-            modifier = Modifier
-                .padding(horizontal = 16.dp, vertical = 30.dp)
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 30.dp)
         ) {
-
-            Text(
-                text = "Total",
-                fontSize = 24.sp
-            )
-
+            Text(text = "Total", fontSize = 24.sp)
             Spacer(Modifier.weight(1f))
-
             Text(
-                text = "R$ ${
-                    String.format(
-                        "%.2f",
-                        state.value.qtdProduto * produto.preco.replace(",", ".").toDouble()
-                    )
-                }",
+                text = "R$ %.2f".format(state.value.qtdProduto * produto.preco),
                 fontSize = 20.sp,
                 fontWeight = FontWeight.SemiBold
             )
-
         }
-
-
 
         Button(
             onClick = {
-
-                navigateBack()
+                // ✅ Adiciona com a quantidade selecionada
+                carrinhoViewModel.adicionarProdutoComQuantidade(
+                    produto = produto,
+                    quantidade = state.value.qtdProduto
+                )
+                navController.navigate(Destination.Carrinho)
             },
             shape = RoundedCornerShape(16.dp),
             modifier = Modifier
@@ -307,34 +225,23 @@ fun ProdutoDetalhesScreen(
                 containerColor = Color(BlueAgi.value)
             )
         ) {
-
             Row(
-                modifier = Modifier
-                    .padding(8.dp),
+                modifier = Modifier.padding(8.dp),
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-
                 Icon(
                     imageVector = Icons.Default.ShoppingCart,
-                    contentDescription = "Add cart Button"
+                    contentDescription = "Adicionar ao carrinho"
                 )
 
-
-
                 Text(
-                    modifier = Modifier
-                        .padding(start = 9.dp),
+                    modifier = Modifier.padding(start = 9.dp),
                     text = "Adicionar ao Carrinho",
                     fontWeight = FontWeight.SemiBold,
                     fontSize = 18.sp
                 )
-
             }
-
-
         }
     }
-
-
 }
