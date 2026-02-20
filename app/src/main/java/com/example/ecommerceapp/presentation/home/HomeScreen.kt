@@ -199,18 +199,34 @@ fun HomeScreen(
                     )
                 }
             } else {
-                FlowRow(
+                Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 12.dp),
-                    maxItemsInEachRow = 2
+                        .padding(horizontal = 12.dp)
                 ) {
-                    filteredProducts.forEach { item ->
-                        ProdutosCard(
-                            onClick = { navigateToDetailScreen(item) },
-                            produto = item,
-                            modifier = Modifier.padding(all = 8.dp)
-                        )
+
+                    filteredProducts.chunked(2).forEach { rowItems ->
+
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(12.dp)
+                        ) {
+
+                            rowItems.forEach { item ->
+                                ProdutosCard(
+                                    onClick = { navigateToDetailScreen(item) },
+                                    produto = item,
+                                    modifier = Modifier
+                                        .weight(1f)
+                                        .padding(vertical = 8.dp)
+                                )
+                            }
+
+                            // Se tiver número ímpar de produtos
+                            if (rowItems.size == 1) {
+                                Spacer(modifier = Modifier.weight(1f))
+                            }
+                        }
                     }
                 }
             }
