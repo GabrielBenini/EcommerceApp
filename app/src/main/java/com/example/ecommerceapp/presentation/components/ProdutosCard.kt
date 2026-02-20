@@ -1,6 +1,7 @@
 package com.example.ecommerceapp.presentation.components
 
 import android.util.Log
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -14,23 +15,30 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.ecommerceapp.R
 import com.example.ecommerceapp.model.Produto
-
+@Preview(showBackground = true)
 @Composable
 fun ProdutosCard(
-    produto: Produto,
+    produto: Produto = Produto(
+        id = "1",
+        nome = "Produto Exemplo",
+        descricao = "Descrição do produto exemplo",
+        preco = 99.99,
+        imagemUrl = "https://via.placeholder.com/150"
+    ),
     modifier: Modifier = Modifier,
-    onClick: (Produto) -> Unit
+    onClick: (Produto) -> Unit = { Log.d("ProdutosCard", "Produto clicado: ${it.nome}") }
 ) {
     Card(
         modifier = modifier
             .clickable { onClick(produto) }
-            .background(Color.LightGray)
-            .padding(8.dp)
+            .background(Color.Transparent)
+            .size(width = 150.dp, height = 210.dp)
 
     ) {
         Column(
@@ -44,11 +52,11 @@ fun ProdutosCard(
                     .data(produto.imagemUrl)
                     .build(),
                 contentDescription = produto.nome,
-                contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(200.dp)
+                    .size(150.dp)
             )
+
             Spacer(modifier = Modifier.height(8.dp))
 
             Text(

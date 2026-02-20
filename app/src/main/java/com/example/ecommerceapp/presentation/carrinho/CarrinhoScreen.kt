@@ -20,7 +20,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.example.ecommerceapp.model.Produto
 import com.example.ecommerceapp.presentation.components.CarrinhoCard
 import com.example.ecommerceapp.presentation.components.ValorTotalCard
 import com.example.ecommerceapp.presentation.produto.ProdutoViewModel
@@ -64,7 +63,6 @@ fun CarrinhoScreen(
                 .padding(paddingValues)
         ) {
 
-            // TÍTULO
             item {
                 Text(
                     text = "Meu Carrinho",
@@ -77,7 +75,6 @@ fun CarrinhoScreen(
                 )
             }
 
-            // MENSAGEM DE CARRINHO VAZIO
             item {
                 if (itensCarrinho.isEmpty()) {
                     Text(
@@ -88,7 +85,6 @@ fun CarrinhoScreen(
                 }
             }
 
-            // ✅ LISTA DE PRODUTOS NO CARRINHO
             items(itensCarrinho) { item ->
                 val produtoCompleto = todosProdutos.find { it.id == item.produtoId }
 
@@ -107,7 +103,6 @@ fun CarrinhoScreen(
                 }
             }
 
-            // RESUMO DO PEDIDO
             if (itensCarrinho.isNotEmpty()) {
                 item {
                     Column(modifier = Modifier.padding(16.dp)) {
@@ -124,7 +119,6 @@ fun CarrinhoScreen(
                     }
                 }
 
-                // BOTÃO CONFIRMAR COMPRA
                 item {
                     Button(
                         modifier = Modifier

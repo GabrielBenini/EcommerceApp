@@ -17,8 +17,8 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun SearchField(
-    query: String,                       // 🔹 texto atual de busca
-    onQueryChange: (String) -> Unit,     // 🔹 callback quando digita algo
+    query: String,
+    onQueryChange: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -46,8 +46,8 @@ fun SearchField(
             ),
             singleLine = true,
             shape = RoundedCornerShape(20.dp),
-            value = query,                                    // texto mostrado
-            onValueChange = { text -> onQueryChange(text) },  // atualiza o texto
+            value = query,
+            onValueChange = { text -> onQueryChange(text) },
             label = { Text(text = "Buscar produtos...") },
             leadingIcon = {
                 Icon(

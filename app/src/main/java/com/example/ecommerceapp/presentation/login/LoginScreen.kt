@@ -194,31 +194,28 @@ fun LoginScreen(
         }
     }
 
-    // ✅ Observar efeitos do login
     LaunchedEffect(Unit) {
         viewModel.uiEffect.collect { effect ->
             when (effect) {
                 is Effect.ShowLoginSuccess -> {
-                    // ✅ AQUI: Fazer login no UsuarioViewModel
                     val email = state.email
-                    val userId = "user_${email.substringBefore("@")}" // Gera ID único
-                    val nome = email.substringBefore("@").capitalize() // Nome baseado no email
+                    val userId = "user_${email.substringBefore("@")}"
+                    val nome = email.substringBefore("@").capitalize()
 
                     usuarioViewModel.fazerLogin(
                         userId = userId,
                         nome = nome,
                         email = email,
-                        saldoInicial = 100.0 // ✅ Saldo inicial de boas-vindas
+                        saldoInicial = 0.0
                     )
 
                     navController.navigate(Destination.Home) {
-                        // Limpar backstack para não voltar ao login
                         popUpTo(Destination.Login) { inclusive = true }
                     }
                 }
 
                 is Effect.ShowLoginError -> {
-                    // TODO: Mostrar erro (Snackbar, Toast, etc)
+
                 }
             }
         }
