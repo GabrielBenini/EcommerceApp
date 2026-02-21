@@ -49,7 +49,6 @@ fun CarrinhoCard(
                     .data(produto.imagemUrl)
                     .build(),
                 contentDescription = produto.nome,
-                contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .size(84.dp)
                     .clip(RoundedCornerShape(8.dp))

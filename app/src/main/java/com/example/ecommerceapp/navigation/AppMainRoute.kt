@@ -92,7 +92,7 @@ fun AppMainRoute() {
 
         NavHost(
             navController = navController,
-            startDestination = Destination.Login,
+            startDestination = Destination.Home,
             modifier = Modifier.padding(innerPadding)
         ) {
 

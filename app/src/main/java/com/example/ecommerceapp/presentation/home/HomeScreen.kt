@@ -145,13 +145,7 @@ fun HomeScreen(
 
                 Spacer(Modifier.weight(1f))
 
-                Text(
-                    text = "Ver todos",
-                    fontWeight = FontWeight.Bold,
-                    color = Color.Blue,
-                    modifier = Modifier
-                        .padding(end = 16.dp)
-                )
+
             }
 
             DestaqueCard()
@@ -175,14 +169,6 @@ fun HomeScreen(
                 )
 
                 Spacer(Modifier.weight(1f))
-
-                Text(
-                    text = "Filtrar",
-                    fontWeight = FontWeight.Bold,
-                    color = Color.Blue,
-                    modifier = Modifier
-                        .padding(end = 16.dp)
-                )
             }
         }
 
@@ -222,7 +208,6 @@ fun HomeScreen(
                                 )
                             }
 
-                            // Se tiver número ímpar de produtos
                             if (rowItems.size == 1) {
                                 Spacer(modifier = Modifier.weight(1f))
                             }
