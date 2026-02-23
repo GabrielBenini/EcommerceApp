@@ -6,10 +6,10 @@ import androidx.lifecycle.ViewModel
 import com.example.ecommerceapp.data.repository.ProdutoRepository
 import com.example.ecommerceapp.model.Produto
 
-class ProdutoViewModel : ViewModel() {
+class ProdutoViewModel(
+    private val repository: ProdutoRepository = ProdutoRepository()
+) : ViewModel() {
 
-
-    val repository = ProdutoRepository()
     val produtoList = MutableLiveData<List<Produto>>()
     val filteredList = MutableLiveData<List<Produto>>(emptyList())
     val isLoading = MutableLiveData(false)
@@ -19,12 +19,9 @@ class ProdutoViewModel : ViewModel() {
         val query = searchQuery.value.lowercase().trim()
         val listaAtual = produtoList.value ?: emptyList()
 
-        filteredList.value = if (query.isEmpty()) {
-            listaAtual
-        } else {
-            listaAtual.filter { produto ->
-                produto.nome.lowercase().contains(query)
-            }
+        filteredList.value = if (query.isEmpty()) listaAtual
+        else listaAtual.filter { produto ->
+            produto.nome.lowercase().contains(query)
         }
     }
 
@@ -36,12 +33,8 @@ class ProdutoViewModel : ViewModel() {
                 produtoList.value = produtos
                 filteredList.value = produtos
             }
-            .addOnFailureListener { e ->
-                e.printStackTrace()
-            }
-            .addOnCompleteListener {
-                isLoading.value = false
-            }
+            .addOnFailureListener { it.printStackTrace() }
+            .addOnCompleteListener { isLoading.value = false }
     }
 
     fun carregarProdutosPorCategoria(categoriaId: String) {
@@ -52,11 +45,7 @@ class ProdutoViewModel : ViewModel() {
                 produtoList.value = produtos
                 filteredList.value = produtos
             }
-            .addOnFailureListener { e ->
-                e.printStackTrace()
-            }
-            .addOnCompleteListener {
-                isLoading.value = false
-            }
+            .addOnFailureListener { it.printStackTrace() }
+            .addOnCompleteListener { isLoading.value = false }
     }
 }

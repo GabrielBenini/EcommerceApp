@@ -162,7 +162,6 @@ fun RecargaScreen(
                         val valor = state.valorPersonalizado.toDoubleOrNull() ?: 0.0
                         if (valor > 0 && state.metodoSelecionado != null) {
                             usuarioViewModel.adicionarSaldo(valor)
-                            navController.popBackStack()
                         }
                     },
                     shape = RoundedCornerShape(10.dp),

@@ -115,9 +115,9 @@ fun CarrinhoScreen(
                             titulo = "Subtotal",
                             subtitulo = "Taxa de Serviço",
                             total = "Total",
-                            subTotalValor = "R$ %.2f".format(subtotal),
-                            taxaServicoValor = "R$ 10,00",
-                            totalValor = "R$ %.2f".format(subtotal + 10.0)
+                            subTotalValor = "%.2f".format(subtotal),
+                            taxaServicoValor = "10,00",
+                            totalValor = "%.2f".format(subtotal + 10.0)
                         )
 
                         Spacer(modifier = Modifier.height(10.dp))

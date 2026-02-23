@@ -137,7 +137,9 @@ fun ProdutoDetalhesScreen(
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
                 Text(
-                    modifier = Modifier.padding(bottom = 8.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 8.dp),
                     text = "Descrição",
                     fontWeight = FontWeight.SemiBold
                 )

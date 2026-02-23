@@ -34,9 +34,11 @@ fun CadastroScreen(
     var mostrarDialogBoasVindas by remember { mutableStateOf(false) }
     var nomeUsuario by remember { mutableStateOf("") }
 
-    // Snackbar moderna material3
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
+
+    var aceitaTermos by remember { mutableStateOf(false) }
+    var desejaOfertas by remember { mutableStateOf(false) }
 
     Column(
         modifier = modifier
@@ -44,7 +46,6 @@ fun CadastroScreen(
             .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // Host de snackbar no topo ou onde quiser
         SnackbarHost(hostState = snackbarHostState)
 
         Row(
@@ -100,42 +101,72 @@ fun CadastroScreen(
             label = "Confirmar Senha"
         )
 
+        Spacer(modifier = Modifier.height(8.dp))
+
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable { aceitaTermos = !aceitaTermos }
+                .padding(vertical = 4.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Checkbox(checked = false, onCheckedChange = {})
-            Text(text = "Concordo com os Termos de Serviço e Política de Privacidade")
+            Checkbox(
+                checked = aceitaTermos,
+                onCheckedChange = { aceitaTermos = it },
+                colors = CheckboxDefaults.colors(checkedColor = Color(BlueAgi.value))
+            )
+            Spacer(Modifier.width(4.dp))
+            Text(
+                text = "Concordo com os Termos de Serviço e Política de Privacidade"
+            )
         }
 
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable { desejaOfertas = !desejaOfertas }
+                .padding(vertical = 4.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Checkbox(checked = false, onCheckedChange = {})
-            Text(text = "Quero receber ofertas e novidades da AgiStore")
+            Checkbox(
+                checked = desejaOfertas,
+                onCheckedChange = { desejaOfertas = it },
+                colors = CheckboxDefaults.colors(checkedColor = Color(BlueAgi.value))
+            )
+            Spacer(Modifier.width(4.dp))
+            Text(
+                text = "Quero receber ofertas e novidades da AgiStore"
+            )
         }
 
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Button(
-                modifier = Modifier
-                    .padding(vertical = 24.dp)
-                    .fillMaxWidth(),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(BlueAgi.value),
-                    contentColor = Color.White
-                ),
-                shape = RoundedCornerShape(12.dp),
-                onClick = { viewModel.cadastro() }
-            ) {
-                Text(
-                    modifier = Modifier.padding(vertical = 8.dp),
-                    text = "Criar Minha Conta"
-                )
+        Spacer(modifier = Modifier.height(12.dp))
+
+        Button(
+            modifier = Modifier
+                .padding(vertical = 24.dp)
+                .fillMaxWidth(),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color(BlueAgi.value),
+                contentColor = Color.White
+            ),
+            shape = RoundedCornerShape(12.dp),
+            onClick = {
+                if (!aceitaTermos) {
+                    scope.launch {
+                        snackbarHostState.showSnackbar(
+                            message = "Você precisa concordar com os Termos de Serviço para continuar.",
+                            duration = SnackbarDuration.Short
+                        )
+                    }
+                } else {
+                    viewModel.cadastro()
+                }
             }
+        ) {
+            Text(
+                modifier = Modifier.padding(vertical = 8.dp),
+                text = "Criar Minha Conta"
+            )
         }
 
         Row(
@@ -217,12 +248,10 @@ fun CadastroScreen(
                 is ShowCadastroSuccess -> {
                     val email = state.email
                     val nome = state.nomeCompleto
-                    val userId = "user_${email.substringBefore("@")}"
-
                     nomeUsuario = nome.ifEmpty { email.substringBefore("@") }
 
                     usuarioViewModel.fazerLogin(
-                        userId = userId,
+                        userId = "user_${email.substringBefore("@")}",
                         nome = nomeUsuario,
                         email = email,
                         saldoInicial = 0.0

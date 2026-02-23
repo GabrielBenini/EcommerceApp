@@ -28,6 +28,7 @@ import com.example.ecommerceapp.presentation.historico.HistoricoScreen
 import com.example.ecommerceapp.presentation.home.HomeScreen
 import com.example.ecommerceapp.presentation.login.LoginScreen
 import com.example.ecommerceapp.presentation.perfil.PerfilScreen
+import com.example.ecommerceapp.presentation.perfil.meusdados.MeusDadosScreen
 import com.example.ecommerceapp.presentation.recarga.RecargaScreen
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.Serializable
@@ -68,7 +69,8 @@ fun AppMainRoute() {
     val hideTopBarRoutes = listOf(
         Destination.Login::class.qualifiedName,
         Destination.Cadastro::class.qualifiedName,
-        Destination.Details::class.qualifiedName
+        Destination.Details::class.qualifiedName,
+        Destination.MeusDados::class.qualifiedName
     )
 
     Scaffold(
@@ -172,6 +174,12 @@ fun AppMainRoute() {
                     usuarioViewModel = usuarioViewModel
                 )
             }
+
+            composable<Destination.MeusDados> {
+                MeusDadosScreen(
+                    navController = navController
+                )
+            }
         }
 
     }
@@ -220,6 +228,9 @@ sealed interface Destination {
 
     @Serializable
     data object Cadastro : Destination
+
+    @Serializable
+    data object MeusDados : Destination
 
     @Serializable
     data class ProdutosPorCategoria(val categoriaId: String) : Destination

@@ -63,7 +63,7 @@ fun HistoricoScreen(
                         modifier = Modifier.fillMaxSize(),
                         contentAlignment = Alignment.Center
                     ) {
-                        Text("Nenhuma compra realizada ainda 💸", color = Color.Gray)
+                        Text("Nenhuma compra realizada💸", color = Color.Gray)
                     }
                 }
                 else -> {

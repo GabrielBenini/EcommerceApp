@@ -1,5 +1,6 @@
 package com.example.ecommerceapp.presentation.perfil
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -125,7 +126,10 @@ fun PerfilScreen(
                     icon = Icons.Default.Person,
                     iconColor = Color(BlueAgi.value),
                     iconBackgroundColor = Color(BlueAgi.value).copy(alpha = 0.2f),
-                    text = "Meus Dados"
+                    text = "Meus Dados",
+                    onClick = {
+                        navController.navigate(Destination.MeusDados)
+                    }
                 )
             }
 
