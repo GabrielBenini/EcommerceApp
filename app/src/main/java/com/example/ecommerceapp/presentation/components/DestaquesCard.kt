@@ -71,7 +71,7 @@ fun DestaqueCard(
             }
 
             Text(
-                text = "Camiseta Agi Classica",
+                text = "Carteira Agi Azul",
                 fontSize = 18.sp,
                 color = Color.White,
                 fontWeight = FontWeight.Bold,
@@ -87,7 +87,7 @@ fun DestaqueCard(
             )
 
             Text(
-                text = "R$ 149,90",
+                text = "R$ 99,90",
                 fontSize = 18.sp,
                 color = Color.White,
                 fontWeight = FontWeight.Bold,

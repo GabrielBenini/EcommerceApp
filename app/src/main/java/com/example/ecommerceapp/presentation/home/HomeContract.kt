@@ -14,7 +14,6 @@ object HomeContract {
 
     sealed class Effect {
 
-
     }
 
 }

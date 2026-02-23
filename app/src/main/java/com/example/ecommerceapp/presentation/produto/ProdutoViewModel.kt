@@ -6,9 +6,10 @@ import androidx.lifecycle.ViewModel
 import com.example.ecommerceapp.data.repository.ProdutoRepository
 import com.example.ecommerceapp.model.Produto
 
-class ProdutoViewModel : ViewModel() {
+class ProdutoViewModel(
+    private val repository: ProdutoRepository
+) : ViewModel() {
 
-    private val repository = ProdutoRepository()
 
     val produtoList = MutableLiveData<List<Produto>>()
     val filteredList = MutableLiveData<List<Produto>>(emptyList())
