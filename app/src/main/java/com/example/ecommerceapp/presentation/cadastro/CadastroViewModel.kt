@@ -73,7 +73,6 @@ class CadastroViewModel : ViewModel() {
                 if (cadastro.isSuccessful) {
                     val userId = auth.currentUser?.uid ?: ""
 
-                    // Criar objeto do Usuario
                     val usuario = Usuario(
                         id = userId,
                         nomeCompleto = nomeCompleto,
@@ -82,7 +81,6 @@ class CadastroViewModel : ViewModel() {
                         dataNascimento = dataNascimento
                     )
 
-                    // Salvar no Firestore
                     repository.adicionarUsuario(usuario)
                         .addOnSuccessListener {
                             viewModelScope.launch {

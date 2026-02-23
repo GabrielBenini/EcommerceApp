@@ -51,8 +51,8 @@ fun CadastroScreen(
 ) {
 
     val state by viewModel.uiState.collectAsStateWithLifecycle()
-    var mostrarDialogBoasVindas by remember { mutableStateOf(false) } // ✅ Estado do Dialog
-    var nomeUsuario by remember { mutableStateOf("") } // ✅ Para mostrar o nome no dialog
+    var mostrarDialogBoasVindas by remember { mutableStateOf(false) }
+    var nomeUsuario by remember { mutableStateOf("") }
 
     Column(
         modifier = modifier
@@ -181,7 +181,7 @@ fun CadastroScreen(
 
     if (mostrarDialogBoasVindas) {
         AlertDialog(
-            onDismissRequest = { }, // Não deixa fechar clicando fora
+            onDismissRequest = { },
             title = {
                 Text(
                     text = "🎉 Bem-vindo à AgiStore!",
@@ -245,7 +245,7 @@ fun CadastroScreen(
                     val nome = state.nomeCompleto
                     val userId = "user_${email.substringBefore("@")}"
 
-                    nomeUsuario = nome.ifEmpty { email.substringBefore("@") } // ✅ Salvar nome
+                    nomeUsuario = nome.ifEmpty { email.substringBefore("@") }
 
                     usuarioViewModel.fazerLogin(
                         userId = userId,

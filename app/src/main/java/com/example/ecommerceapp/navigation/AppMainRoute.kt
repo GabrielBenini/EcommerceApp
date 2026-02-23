@@ -6,7 +6,6 @@ import android.os.Bundle
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -32,7 +31,6 @@ import com.example.ecommerceapp.presentation.perfil.PerfilScreen
 import com.example.ecommerceapp.presentation.recarga.RecargaScreen
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.Serializable
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.ecommerceapp.presentation.produto.ProdutoViewModel
 import com.example.ecommerceapp.presentation.usuario.UsuarioViewModel
 import kotlin.reflect.typeOf
@@ -92,7 +90,7 @@ fun AppMainRoute() {
 
         NavHost(
             navController = navController,
-            startDestination = Destination.Login,
+            startDestination = Destination.Home,
             modifier = Modifier.padding(innerPadding)
         ) {
 

@@ -8,7 +8,7 @@ import com.example.ecommerceapp.utils.Converters
 
 @Database(
     entities = [HistoricoCompra::class],
-    version = 2, // ✅ Incremente a versão (era 1, agora 2)
+    version = 2,
     exportSchema = false
 )
 @TypeConverters(value = [Converters::class])

@@ -10,10 +10,10 @@ class CategoriaViewModel : ViewModel() {
     private val repository = CategoriaRepository()
 
     val categoriaList = MutableLiveData<List<Categoria>>()
-    val isLoading = MutableLiveData(false) // 👈 NOVO
+    val isLoading = MutableLiveData(false)
 
     fun carregarCategorias() {
-        isLoading.value = true // 👈 ativa o loading
+        isLoading.value = true
 
         repository.buscarCategorias()
             .addOnSuccessListener { resultado ->
@@ -24,7 +24,7 @@ class CategoriaViewModel : ViewModel() {
                 e.printStackTrace()
             }
             .addOnCompleteListener {
-                isLoading.value = false // 👈 desativa o loading
+                isLoading.value = false
             }
     }
 }

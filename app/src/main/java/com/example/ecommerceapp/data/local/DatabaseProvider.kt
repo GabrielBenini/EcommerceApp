@@ -15,7 +15,7 @@ object DatabaseProvider {
                 AppDatabase::class.java,
                 "ecommerce_database"
             )
-                .fallbackToDestructiveMigration() // ✅ Recria o banco ao mudar versão
+                .fallbackToDestructiveMigration()
                 .build()
             INSTANCE = instance
             instance

@@ -26,7 +26,6 @@ class UsuarioViewModel(application: Application) : AndroidViewModel(application)
         carregarUsuarioLogado()
     }
 
-    // ✅ Carregar usuário logado
     private fun carregarUsuarioLogado() {
         val userId = userPrefs.getUsuarioLogadoId()
         if (userId != null) {
@@ -37,7 +36,6 @@ class UsuarioViewModel(application: Application) : AndroidViewModel(application)
         }
     }
 
-    // ✅ Fazer login (chamar após autenticação bem-sucedida)
     fun fazerLogin(userId: String, nome: String, email: String, saldoInicial: Double = 0.0) {
         userPrefs.salvarUsuarioLogado(userId)
         userPrefs.salvarDadosUsuario(userId, nome, email)
@@ -46,19 +44,16 @@ class UsuarioViewModel(application: Application) : AndroidViewModel(application)
         _nomeUsuario.value = nome
         _emailUsuario.value = email
 
-        // Carregar saldo existente ou usar inicial
         val saldoExistente = userPrefs.getSaldo(userId)
         _saldo.value = if (saldoExistente > 0) saldoExistente else saldoInicial
     }
 
-    // ✅ Atualizar saldo (agora salva por usuário)
     fun atualizarSaldo(novoSaldo: Double) {
         val userId = _usuarioId.value ?: return
         _saldo.value = novoSaldo
         userPrefs.salvarSaldo(userId, novoSaldo)
     }
 
-    // ✅ Descontar saldo
     fun descontarSaldo(valor: Double) {
         val userId = _usuarioId.value ?: return
         val atual = _saldo.value ?: 0.0
@@ -67,7 +62,6 @@ class UsuarioViewModel(application: Application) : AndroidViewModel(application)
         userPrefs.salvarSaldo(userId, novo)
     }
 
-    // ✅ Adicionar saldo
     fun adicionarSaldo(valor: Double) {
         val userId = _usuarioId.value ?: return
         val atual = _saldo.value ?: 0.0
@@ -76,7 +70,6 @@ class UsuarioViewModel(application: Application) : AndroidViewModel(application)
         userPrefs.salvarSaldo(userId, novo)
     }
 
-    // ✅ Fazer logout
     fun fazerLogout() {
         userPrefs.limparDadosUsuario()
         _usuarioId.value = null

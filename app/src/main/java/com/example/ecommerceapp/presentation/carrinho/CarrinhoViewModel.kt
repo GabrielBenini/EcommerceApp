@@ -34,7 +34,6 @@ class CarrinhoViewModel(
         val itemExistente = listaAtual.find { it.produtoId == produto.id }
 
         if (itemExistente != null) {
-            // ✅ Criar novo objeto ao invés de modificar
             val index = listaAtual.indexOf(itemExistente)
             listaAtual[index] = itemExistente.copy(quantidade = itemExistente.quantidade + 1)
         } else {
@@ -69,7 +68,6 @@ class CarrinhoViewModel(
         calcularSubtotal()
     }
 
-    // ✅ CORRIGIR: Criar nova lista com novo objeto
     fun aumentarQuantidade(item: CarrinhoItem) {
         val listaAtual = _itensCarrinho.value?.toMutableList() ?: return
         val itemEncontrado = listaAtual.find { it.produtoId == item.produtoId } ?: return
@@ -81,7 +79,6 @@ class CarrinhoViewModel(
         calcularSubtotal()
     }
 
-    // ✅ CORRIGIR: Criar nova lista com novo objeto
     fun diminuirQuantidade(item: CarrinhoItem) {
         val listaAtual = _itensCarrinho.value?.toMutableList() ?: return
         val itemEncontrado = listaAtual.find { it.produtoId == item.produtoId } ?: return

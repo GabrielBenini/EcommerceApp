@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -70,17 +71,22 @@ fun CarrinhoScreen(
                     fontWeight = FontWeight.Bold,
                     color = Color(0xFF1E293B),
                     modifier = Modifier
-                        .padding(vertical = 30.dp, horizontal = 30.dp)
-                        .fillMaxWidth()
+                        .padding(bottom = 70.dp, start = 30.dp, end = 30.dp)
+                        .fillMaxWidth(),
+                    textAlign = TextAlign.Center
                 )
             }
 
             item {
                 if (itensCarrinho.isEmpty()) {
                     Text(
-                        text = "Seu carrinho está vazio 🛒",
+                        text = "Seu carrinho está cheio 🛒",
                         color = Color.Gray,
-                        modifier = Modifier.padding(vertical = 20.dp, horizontal = 16.dp)
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 20.dp, horizontal = 16.dp),
+                        textAlign = TextAlign.Center
+
                     )
                 }
             }
@@ -145,7 +151,7 @@ fun CarrinhoScreen(
                                     .padding(end = 8.dp)
                             )
                             Text(
-                                text = "Confirmar Compra",
+                                text = "Comprar",
                                 fontWeight = FontWeight.SemiBold,
                                 fontSize = 16.sp,
                                 color = Color.White

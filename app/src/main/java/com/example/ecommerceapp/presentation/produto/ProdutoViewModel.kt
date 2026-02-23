@@ -15,13 +15,12 @@ class ProdutoViewModel : ViewModel() {
     val isLoading = MutableLiveData(false)
     val searchQuery = mutableStateOf("")
 
-    // 🔹 Atualiza o filtro de produtos conforme o texto digitado
     fun atualizarFiltro() {
         val query = searchQuery.value.lowercase().trim()
         val listaAtual = produtoList.value ?: emptyList()
 
         filteredList.value = if (query.isEmpty()) {
-            listaAtual    // mostra tudo se a busca estiver vazia
+            listaAtual
         } else {
             listaAtual.filter { produto ->
                 produto.nome.lowercase().contains(query)
@@ -29,14 +28,13 @@ class ProdutoViewModel : ViewModel() {
         }
     }
 
-    // 🔹 Carrega todos os produtos do Firestore
     fun carregarProdutos() {
         isLoading.value = true
         repository.buscarProdutos()
             .addOnSuccessListener { resultado ->
                 val produtos = resultado.toObjects(Produto::class.java)
                 produtoList.value = produtos
-                filteredList.value = produtos // ✅ mostra todos assim que carregar
+                filteredList.value = produtos
             }
             .addOnFailureListener { e ->
                 e.printStackTrace()
@@ -46,14 +44,13 @@ class ProdutoViewModel : ViewModel() {
             }
     }
 
-    // 🔹 Carrega produtos filtrando por categoria
     fun carregarProdutosPorCategoria(categoriaId: String) {
         isLoading.value = true
         repository.buscarPorCategoria(categoriaId)
             .addOnSuccessListener { resultado ->
                 val produtos = resultado.toObjects(Produto::class.java)
                 produtoList.value = produtos
-                filteredList.value = produtos // ✅ mostra todos da categoria logo de início
+                filteredList.value = produtos
             }
             .addOnFailureListener { e ->
                 e.printStackTrace()

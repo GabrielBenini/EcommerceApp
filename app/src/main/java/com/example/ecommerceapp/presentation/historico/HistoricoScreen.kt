@@ -20,7 +20,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun HistoricoScreen(
     navController: NavHostController,
-    carrinhoViewModel: CarrinhoViewModel // ✅ Recebe do NavHost
+    carrinhoViewModel: CarrinhoViewModel
 ) {
     val scope = rememberCoroutineScope()
     var listaHistorico by remember { mutableStateOf<List<HistoricoCompra>>(emptyList()) }

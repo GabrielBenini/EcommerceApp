@@ -29,9 +29,9 @@ fun DestaqueCard(
 
     val greenGradient = Brush.linearGradient(
         colors = listOf(
-            Color(0xFF34D399),  // Verde claro
-            Color(0xFF10B981),  // Verde
-            Color(0xFF059669)   // Verde escuro
+            Color(0xFF34D399),
+            Color(0xFF10B981),
+            Color(0xFF059669)
         )
     )
 

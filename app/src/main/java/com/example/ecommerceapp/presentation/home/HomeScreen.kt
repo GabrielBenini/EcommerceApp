@@ -222,7 +222,6 @@ fun HomeScreen(
                                 )
                             }
 
-                            // Se tiver número ímpar de produtos
                             if (rowItems.size == 1) {
                                 Spacer(modifier = Modifier.weight(1f))
                             }

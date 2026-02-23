@@ -43,7 +43,7 @@ import com.example.ecommerceapp.presentation.usuario.UsuarioViewModel
 fun LoginScreen(
     modifier: Modifier = Modifier,
     navController: NavController,
-    usuarioViewModel: UsuarioViewModel, // ✅ Adicione este parâmetro
+    usuarioViewModel: UsuarioViewModel,
     viewModel: LoginViewModel = viewModel()
 ) {
 

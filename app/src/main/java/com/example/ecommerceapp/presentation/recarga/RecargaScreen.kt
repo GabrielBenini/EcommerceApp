@@ -144,7 +144,6 @@ fun RecargaScreen(
                         .fillMaxWidth()
                         .padding(vertical = 16.dp),
                     onClick = {
-                        // ✅ AQUI A MÁGICA ACONTECE!
                         val valor = state.valorPersonalizado.toDoubleOrNull() ?: 0.0
                         if (valor > 0) {
                             usuarioViewModel.adicionarSaldo(valor)
