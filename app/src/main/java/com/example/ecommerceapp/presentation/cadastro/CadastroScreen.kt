@@ -1,24 +1,10 @@
 package com.example.ecommerceapp.presentation.cadastro
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Checkbox
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -33,14 +19,9 @@ import com.example.ecommerceapp.navigation.Destination
 import com.example.ecommerceapp.presentation.components.CadastroTextField
 import com.example.ecommerceapp.presentation.usuario.UsuarioViewModel
 import com.example.ecommerceapp.ui.theme.BlueAgi
-import com.example.ecommerceapp.presentation.cadastro.CadastroContract.Event.OnEmailChange
-import com.example.ecommerceapp.presentation.cadastro.CadastroContract.Event.OnSenhaChange
-import com.example.ecommerceapp.presentation.cadastro.CadastroContract.Event.OnTelefoneChange
-import com.example.ecommerceapp.presentation.cadastro.CadastroContract.Event.OnNomeCompletoChange
-import com.example.ecommerceapp.presentation.cadastro.CadastroContract.Event.OnDataNascimentoChange
-import com.example.ecommerceapp.presentation.cadastro.CadastroContract.Event.OnConfirmacaoSenhaChange
-import com.example.ecommerceapp.presentation.cadastro.CadastroContract.Effect.ShowCadastroSuccess
-import com.example.ecommerceapp.presentation.cadastro.CadastroContract.Effect.ShowCadastroError
+import com.example.ecommerceapp.presentation.cadastro.CadastroContract.Event.*
+import com.example.ecommerceapp.presentation.cadastro.CadastroContract.Effect.*
+import kotlinx.coroutines.launch
 
 @Composable
 fun CadastroScreen(
@@ -49,10 +30,13 @@ fun CadastroScreen(
     usuarioViewModel: UsuarioViewModel,
     viewModel: CadastroViewModel = viewModel()
 ) {
-
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     var mostrarDialogBoasVindas by remember { mutableStateOf(false) }
     var nomeUsuario by remember { mutableStateOf("") }
+
+    // Snackbar moderna material3
+    val snackbarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
 
     Column(
         modifier = modifier
@@ -60,6 +44,8 @@ fun CadastroScreen(
             .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        // Host de snackbar no topo ou onde quiser
+        SnackbarHost(hostState = snackbarHostState)
 
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -118,26 +104,16 @@ fun CadastroScreen(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Checkbox(
-                checked = false,
-                onCheckedChange = {}
-            )
-            Text(
-                text = "Concordo com os Termos de Serviço e Política de Privacidade"
-            )
+            Checkbox(checked = false, onCheckedChange = {})
+            Text(text = "Concordo com os Termos de Serviço e Política de Privacidade")
         }
 
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Checkbox(
-                checked = false,
-                onCheckedChange = {}
-            )
-            Text(
-                text = "Quero receber ofertas e novidades da AgiStore"
-            )
+            Checkbox(checked = false, onCheckedChange = {})
+            Text(text = "Quero receber ofertas e novidades da AgiStore")
         }
 
         Row(
@@ -153,9 +129,7 @@ fun CadastroScreen(
                     contentColor = Color.White
                 ),
                 shape = RoundedCornerShape(12.dp),
-                onClick = {
-                    viewModel.cadastro()
-                }
+                onClick = { viewModel.cadastro() }
             ) {
                 Text(
                     modifier = Modifier.padding(vertical = 8.dp),
@@ -172,9 +146,9 @@ fun CadastroScreen(
                 text = " Faça Login",
                 fontWeight = FontWeight.SemiBold,
                 color = Color(BlueAgi.value),
-                modifier = Modifier.clickable(
-                    onClick = { navController.navigate(Destination.Login) }
-                )
+                modifier = Modifier.clickable {
+                    navController.navigate(Destination.Login)
+                }
             )
         }
     }
@@ -258,7 +232,13 @@ fun CadastroScreen(
                 }
 
                 is ShowCadastroError -> {
-                    // TODO: Mostrar erro
+                    scope.launch {
+                        snackbarHostState.showSnackbar(
+                            message = effect.message,
+                            duration = SnackbarDuration.Short,
+                            withDismissAction = true
+                        )
+                    }
                 }
             }
         }

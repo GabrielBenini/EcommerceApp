@@ -22,12 +22,14 @@ class RecargaViewModel : ViewModel(){
             }
 
             is RecargaContract.Event.OnRealizarRecargaClick -> {
-
-
             }
 
             is RecargaContract.Event.OnValorFixoSelecionado -> {
                 _uiState.value = _uiState.value.copy(valorPersonalizado = event.valorFixo)
+            }
+
+            is RecargaContract.Event.OnMetodoPagamentoSelecionado -> {
+                _uiState.value = _uiState.value.copy(metodoSelecionado = event.metodo)
             }
 
         }

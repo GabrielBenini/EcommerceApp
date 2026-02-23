@@ -4,13 +4,16 @@ object RecargaContract {
 
     data class State(
         val valorPersonalizado: String = "",
-        val valorTotal: String = "R$ 0,00"
+        val valorTotal: String = "R$ 0,00",
+        val metodoSelecionado: String? = null
     )
 
     sealed class Event {
         data class OnValorRecargaChange(val valor: String) : Event()
         data class OnValorFixoSelecionado(val valorFixo: String) : Event()
         object OnRealizarRecargaClick : Event()
+
+        data class OnMetodoPagamentoSelecionado(val metodo: String) : Event()
     }
 
     sealed class Effect {

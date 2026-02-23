@@ -57,7 +57,6 @@ class CarrinhoViewModel(
         val itemEncontrado = listaAtual.find { it.produtoId == item.produtoId } ?: return
 
         if (itemEncontrado.quantidade > 1) {
-            // ✅ Criar novo objeto
             val index = listaAtual.indexOf(itemEncontrado)
             listaAtual[index] = itemEncontrado.copy(quantidade = itemEncontrado.quantidade - 1)
         } else {
@@ -75,7 +74,7 @@ class CarrinhoViewModel(
         val index = listaAtual.indexOf(itemEncontrado)
         listaAtual[index] = itemEncontrado.copy(quantidade = itemEncontrado.quantidade + 1)
 
-        _itensCarrinho.value = listaAtual // Isso força a recomposição
+        _itensCarrinho.value = listaAtual
         calcularSubtotal()
     }
 
@@ -161,9 +160,11 @@ class CarrinhoViewModel(
                     _mensagemCompra.value = "Compra realizada com sucesso! ✅"
                 }
             }
-
-            _mensagemCompra.value = null
         }
+    }
+
+    fun limparMensagem() {
+        _mensagemCompra.value = null
     }
 
     suspend fun buscarHistoricoCompras(): List<HistoricoCompra> {

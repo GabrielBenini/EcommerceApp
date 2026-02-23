@@ -53,12 +53,28 @@ class LoginViewModel : ViewModel() {
                         _uiEffect.emit(LoginContract.Effect.ShowLoginSuccess)
                     }
                 } else {
+                    val message = when (val exception = login.exception) {
+                        is com.google.firebase.auth.FirebaseAuthInvalidCredentialsException ->
+                            "Email ou senha incorretos."
+
+                        is com.google.firebase.auth.FirebaseAuthInvalidUserException ->
+                            "Usuário não encontrado. Verifique o email informado."
+
+                        is com.google.firebase.auth.FirebaseAuthInvalidCredentialsException ->
+                            "As credenciais estão incorretas."
+
+                        is com.google.firebase.auth.FirebaseAuthUserCollisionException ->
+                            "Já existe uma conta com este email."
+
+                        is com.google.firebase.auth.FirebaseAuthWeakPasswordException ->
+                            "Senha muito fraca. Escolha uma senha mais segura."
+
+                        else ->
+                            "Erro ao realizar login. Tente novamente."
+                    }
+
                     viewModelScope.launch {
-                        _uiEffect.emit(
-                            LoginContract.Effect.ShowLoginError(
-                                login.exception?.message ?: "Erro ao realizar login"
-                            )
-                        )
+                        _uiEffect.emit(LoginContract.Effect.ShowLoginError(message))
                     }
                 }
             }

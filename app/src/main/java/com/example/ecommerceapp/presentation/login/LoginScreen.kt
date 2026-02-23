@@ -12,17 +12,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Login
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -38,7 +33,9 @@ import com.example.ecommerceapp.presentation.login.LoginContract.Event.OnEmailCh
 import com.example.ecommerceapp.presentation.login.LoginContract.Event.OnPasswordChange
 import com.example.ecommerceapp.presentation.login.LoginContract.Effect
 import com.example.ecommerceapp.presentation.usuario.UsuarioViewModel
+import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(
     modifier: Modifier = Modifier,
@@ -46,176 +43,195 @@ fun LoginScreen(
     usuarioViewModel: UsuarioViewModel,
     viewModel: LoginViewModel = viewModel()
 ) {
-
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
-    Column(
-        modifier = modifier
-            .padding(horizontal = 24.dp)
-            .fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
+    val snackbarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
 
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center
+    Scaffold(
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
+    ) { innerPadding ->
+
+        Column(
+            modifier = modifier
+                .padding(horizontal = 24.dp)
+                .padding(innerPadding)
+                .fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(
-                text = "AgiStore",
-                fontSize = 24.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(vertical = 46.dp)
-            )
-        }
 
-        OutlinedTextField(
-            value = state.email,
-            singleLine = true,
-            maxLines = 1,
-            onValueChange = { viewModel.handleEvent(OnEmailChange(it)) },
-            label = { Text(text = "Email") },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 16.dp)
-        )
-
-        OutlinedTextField(
-            value = state.password,
-            singleLine = true,
-            maxLines = 1,
-            onValueChange = { viewModel.handleEvent(OnPasswordChange(it)) },
-            label = { Text(text = "Senha") },
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 16.dp),
-            horizontalArrangement = Arrangement.End
-        ) {
-            Text(
-                text = "Esqueceu a senha?",
-                fontSize = 14.sp,
-                fontWeight = FontWeight.SemiBold,
-                color = Color(BlueAgi.value)
-            )
-        }
-
-        Button(
-            modifier = Modifier
-                .padding(bottom = 44.dp)
-                .fillMaxWidth(),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color(BlueAgi.value),
-                contentColor = Color.White
-            ),
-            shape = RoundedCornerShape(12.dp),
-            onClick = {
-                viewModel.login()
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    text = "AgiStore",
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(vertical = 46.dp)
+                )
             }
-        ) {
-            Text(
-                modifier = Modifier.padding(vertical = 8.dp),
-                text = "Entrar"
+
+            OutlinedTextField(
+                value = state.email,
+                singleLine = true,
+                maxLines = 1,
+                onValueChange = { viewModel.handleEvent(OnEmailChange(it)) },
+                label = { Text(text = "Email") },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 16.dp)
             )
-        }
 
-        HorizontalDivider(thickness = 1.dp)
+            OutlinedTextField(
+                value = state.password,
+                singleLine = true,
+                maxLines = 1,
+                onValueChange = { viewModel.handleEvent(OnPasswordChange(it)) },
+                label = { Text(text = "Senha") },
+                modifier = Modifier.fillMaxWidth()
+            )
 
-        Card(
-            border = BorderStroke(1.dp, Color.LightGray),
-            colors = CardDefaults.cardColors(
-                containerColor = Color.White
-            ),
-            modifier = Modifier
-                .padding(top = 44.dp)
-                .fillMaxWidth()
-        ) {
             Row(
                 modifier = Modifier
-                    .padding(16.dp)
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
+                    .fillMaxWidth()
+                    .padding(vertical = 16.dp),
+                horizontalArrangement = Arrangement.End
             ) {
-                Icon(
-                    modifier = Modifier.padding(end = 8.dp),
-                    imageVector = Icons.Default.Search,
-                    contentDescription = "Entrar com Google"
-                )
                 Text(
-                    text = "Continuar com Google",
-                    fontWeight = FontWeight.SemiBold
+                    text = "Esqueceu a senha?",
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    color = Color(BlueAgi.value)
                 )
             }
-        }
 
-        Card(
-            border = BorderStroke(1.dp, Color.LightGray),
-            colors = CardDefaults.cardColors(
-                containerColor = Color.White
-            ),
-            modifier = Modifier
-                .padding(top = 20.dp)
-                .fillMaxWidth()
-        ) {
-            Row(
+            Button(
                 modifier = Modifier
-                    .padding(16.dp)
+                    .padding(bottom = 44.dp)
                     .fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Icon(
-                    modifier = Modifier.padding(end = 8.dp),
-                    imageVector = Icons.Default.Login,
-                    contentDescription = "Entrar com Apple"
-                )
-                Text(
-                    text = "Continuar com Apple",
-                    fontWeight = FontWeight.SemiBold
-                )
-            }
-        }
-
-        Row(
-            modifier = Modifier.padding(top = 16.dp)
-        ) {
-            Text(text = "Não tem uma conta?")
-            Text(
-                text = " Criar agora ",
-                fontWeight = FontWeight.SemiBold,
-                color = Color(BlueAgi.value),
-                modifier = Modifier.clickable(
-                    onClick = { navController.navigate(Destination.Cadastro) }
-                )
-            )
-        }
-    }
-
-    LaunchedEffect(Unit) {
-        viewModel.uiEffect.collect { effect ->
-            when (effect) {
-                is Effect.ShowLoginSuccess -> {
-                    val email = state.email
-                    val userId = "user_${email.substringBefore("@")}"
-                    val nome = email.substringBefore("@").capitalize()
-
-                    usuarioViewModel.fazerLogin(
-                        userId = userId,
-                        nome = nome,
-                        email = email,
-                        saldoInicial = 0.0
-                    )
-
-                    navController.navigate(Destination.Home) {
-                        popUpTo(Destination.Login) { inclusive = true }
-                    }
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(BlueAgi.value),
+                    contentColor = Color.White
+                ),
+                shape = RoundedCornerShape(12.dp),
+                onClick = {
+                    viewModel.login()
                 }
+            ) {
+                Text(
+                    modifier = Modifier.padding(vertical = 8.dp),
+                    text = "Entrar"
+                )
+            }
 
-                is Effect.ShowLoginError -> {
+            HorizontalDivider(thickness = 1.dp)
 
+            Card(
+                border = BorderStroke(1.dp, Color.LightGray),
+                colors = CardDefaults.cardColors(
+                    containerColor = Color.White
+                ),
+                modifier = Modifier
+                    .padding(top = 44.dp)
+                    .fillMaxWidth()
+            ) {
+                Row(
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        modifier = Modifier.padding(end = 8.dp),
+                        imageVector = Icons.Default.Search,
+                        contentDescription = "Entrar com Google"
+                    )
+                    Text(
+                        text = "Continuar com Google",
+                        fontWeight = FontWeight.SemiBold
+                    )
+                }
+            }
+
+            Card(
+                border = BorderStroke(1.dp, Color.LightGray),
+                colors = CardDefaults.cardColors(
+                    containerColor = Color.White
+                ),
+                modifier = Modifier
+                    .padding(top = 20.dp)
+                    .fillMaxWidth()
+            ) {
+                Row(
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        modifier = Modifier.padding(end = 8.dp),
+                        imageVector = Icons.Default.Login,
+                        contentDescription = "Entrar com Apple"
+                    )
+                    Text(
+                        text = "Continuar com Apple",
+                        fontWeight = FontWeight.SemiBold
+                    )
+                }
+            }
+
+            Row(
+                modifier = Modifier.padding(top = 16.dp)
+            ) {
+                Text(text = "Não tem uma conta?")
+                Text(
+                    text = " Criar agora ",
+                    fontWeight = FontWeight.SemiBold,
+                    color = Color(BlueAgi.value),
+                    modifier = Modifier.clickable(
+                        onClick = { navController.navigate(Destination.Cadastro) }
+                    )
+                )
+            }
+        }
+
+        LaunchedEffect(Unit) {
+            viewModel.uiEffect.collect { effect ->
+                when (effect) {
+                    is Effect.ShowLoginSuccess -> {
+                        val email = state.email
+                        val nome = email.substringBefore("@").replaceFirstChar { it.uppercaseChar() }
+
+                        usuarioViewModel.fazerLogin(
+                            userId = "user_${email.substringBefore("@")}",
+                            nome = nome,
+                            email = email,
+                            saldoInicial = 0.0
+                        )
+
+                        scope.launch {
+                            snackbarHostState.showSnackbar(
+                                message = "Bem-vindo(a), $nome!",
+                                duration = SnackbarDuration.Short
+                            )
+                        }
+
+                        navController.navigate(Destination.Home) {
+                            popUpTo(Destination.Login) { inclusive = true }
+                        }
+                    }
+
+                    is Effect.ShowLoginError -> {
+                        scope.launch {
+                            snackbarHostState.showSnackbar(
+                                message = effect.message.ifBlank { "Erro ao realizar login" },
+                                duration = SnackbarDuration.Short
+                            )
+                        }
+                    }
                 }
             }
         }

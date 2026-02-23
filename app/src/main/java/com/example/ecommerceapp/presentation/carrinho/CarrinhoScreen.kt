@@ -8,11 +8,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -36,7 +33,6 @@ fun CarrinhoScreen(
     produtoViewModel: ProdutoViewModel,
     modifier: Modifier = Modifier
 ) {
-
     val saldoUsuario by usuarioViewModel.saldo.observeAsState(0.0)
     val itensCarrinho by carrinhoViewModel.itensCarrinho.observeAsState(emptyList())
     val subtotal by carrinhoViewModel.subtotal.observeAsState(0.0)
@@ -49,14 +45,18 @@ fun CarrinhoScreen(
         produtoViewModel.carregarProdutos()
     }
 
-    mensagem?.let { texto ->
-        LaunchedEffect(texto) {
-            snackbarHostState.showSnackbar(texto)
+    LaunchedEffect(mensagem) {
+        mensagem?.let { texto ->
+            snackbarHostState.showSnackbar(
+                message = texto,
+                duration = SnackbarDuration.Short
+            )
+            carrinhoViewModel.limparMensagem()
         }
     }
 
     Scaffold(
-        snackbarHost = { SnackbarHost(snackbarHostState) }
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
     ) { paddingValues ->
         LazyColumn(
             modifier = modifier
@@ -80,13 +80,12 @@ fun CarrinhoScreen(
             item {
                 if (itensCarrinho.isEmpty()) {
                     Text(
-                        text = "Seu carrinho está cheio 🛒",
+                        text = "Seu carrinho está vazio 🛒",
                         color = Color.Gray,
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(vertical = 20.dp, horizontal = 16.dp),
                         textAlign = TextAlign.Center
-
                     )
                 }
             }

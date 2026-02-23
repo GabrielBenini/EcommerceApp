@@ -212,7 +212,6 @@ fun ProdutoDetalhesScreen(
 
         Button(
             onClick = {
-                // ✅ Adiciona com a quantidade selecionada
                 carrinhoViewModel.adicionarProdutoComQuantidade(
                     produto = produto,
                     quantidade = state.value.qtdProduto

@@ -12,7 +12,6 @@ class ProdutoRepository {
         return produtosCollection.get()
     }
 
-    // Opcional: buscar produtos por categoria
     fun buscarPorCategoria(categoriaId: String): Task<QuerySnapshot> {
         return produtosCollection.whereEqualTo("categoriaId", categoriaId).get()
     }

@@ -17,7 +17,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
@@ -26,21 +25,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import com.example.ecommerceapp.presentation.components.AgiStoreHeader
-import com.example.ecommerceapp.presentation.components.BottomBar
 import com.example.ecommerceapp.presentation.components.MetodoPagamentoCard
 import com.example.ecommerceapp.presentation.components.ValorRecargaButtons
 import com.example.ecommerceapp.presentation.components.ValorTotalRecargaCard
 import com.example.ecommerceapp.presentation.usuario.UsuarioViewModel
 import com.example.ecommerceapp.ui.theme.BlueAgi
 
-//@Preview
 @Composable
 fun RecargaScreen(
     navController: NavHostController,
@@ -48,11 +43,9 @@ fun RecargaScreen(
     modifier: Modifier = Modifier,
     viewModel: RecargaViewModel = viewModel()
 ) {
-
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
     Column(modifier = Modifier.fillMaxSize()) {
-
         LazyColumn(
             modifier = Modifier
                 .padding(horizontal = 16.dp)
@@ -64,7 +57,7 @@ fun RecargaScreen(
                     text = "Recarregar Saldo",
                     fontSize = 20.sp,
                     fontWeight = FontWeight.SemiBold,
-                    modifier = Modifier.padding(vertical = 8.dp)
+                    modifier = Modifier.padding(top = 24.dp)
                 )
             }
 
@@ -91,8 +84,12 @@ fun RecargaScreen(
                         .padding(top = 8.dp)
                         .fillMaxWidth(),
                     value = state.valorPersonalizado,
-                    label = {Text(text = "Valor Personalizado")},
-                    onValueChange = { viewModel.handleEvent(RecargaContract.Event.OnValorRecargaChange(valor = it)) }
+                    label = { Text(text = "Valor Personalizado") },
+                    onValueChange = {
+                        viewModel.handleEvent(
+                            RecargaContract.Event.OnValorRecargaChange(it)
+                        )
+                    }
                 )
             }
 
@@ -107,7 +104,13 @@ fun RecargaScreen(
                 MetodoPagamentoCard(
                     tipoPagamento = "PIX",
                     descricaoPagamento = "Pagamento Instantâneo",
-                    icone = Icons.Default.CreditCard
+                    icone = Icons.Default.CreditCard,
+                    selecionado = state.metodoSelecionado == "PIX",
+                    onSelect = {
+                        viewModel.handleEvent(
+                            RecargaContract.Event.OnMetodoPagamentoSelecionado("PIX")
+                        )
+                    }
                 )
             }
 
@@ -115,7 +118,13 @@ fun RecargaScreen(
                 MetodoPagamentoCard(
                     tipoPagamento = "Cartão de Crédito",
                     descricaoPagamento = "Visa, Master, Elo",
-                    icone = Icons.Default.CreditCard
+                    icone = Icons.Default.CreditCard,
+                    selecionado = state.metodoSelecionado == "Cartão de Crédito",
+                    onSelect = {
+                        viewModel.handleEvent(
+                            RecargaContract.Event.OnMetodoPagamentoSelecionado("Cartão de Crédito")
+                        )
+                    }
                 )
             }
 
@@ -123,7 +132,13 @@ fun RecargaScreen(
                 MetodoPagamentoCard(
                     tipoPagamento = "Boleto",
                     descricaoPagamento = "Até 3 dias úteis",
-                    icone = Icons.Default.InsertDriveFile
+                    icone = Icons.Default.InsertDriveFile,
+                    selecionado = state.metodoSelecionado == "Boleto",
+                    onSelect = {
+                        viewModel.handleEvent(
+                            RecargaContract.Event.OnMetodoPagamentoSelecionado("Boleto")
+                        )
+                    }
                 )
             }
 
@@ -145,7 +160,7 @@ fun RecargaScreen(
                         .padding(vertical = 16.dp),
                     onClick = {
                         val valor = state.valorPersonalizado.toDoubleOrNull() ?: 0.0
-                        if (valor > 0) {
+                        if (valor > 0 && state.metodoSelecionado != null) {
                             usuarioViewModel.adicionarSaldo(valor)
                             navController.popBackStack()
                         }
@@ -167,7 +182,6 @@ fun RecargaScreen(
                                 .size(30.dp)
                                 .padding(end = 8.dp)
                         )
-
                         Text(
                             text = "Confirmar Recarga",
                             fontWeight = FontWeight.SemiBold,

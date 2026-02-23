@@ -46,7 +46,7 @@ fun HistoricoScreen(
                 color = Color(0xFF1E293B),
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
-                    .padding(vertical = 24.dp)
+                    .padding(bottom = 24.dp)
             )
 
             when {
