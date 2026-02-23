@@ -250,8 +250,10 @@ fun CadastroScreen(
                     val nome = state.nomeCompleto
                     nomeUsuario = nome.ifEmpty { email.substringBefore("@") }
 
+                    val firebaseUserId = com.google.firebase.auth.FirebaseAuth.getInstance().currentUser?.uid ?: return@collect
+
                     usuarioViewModel.fazerLogin(
-                        userId = "user_${email.substringBefore("@")}",
+                        userId = firebaseUserId,
                         nome = nomeUsuario,
                         email = email,
                         saldoInicial = 0.0

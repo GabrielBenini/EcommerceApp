@@ -29,44 +29,6 @@ class CarrinhoViewModel(
     private val _mensagemCompra = MutableLiveData<String?>()
     val mensagemCompra: LiveData<String?> = _mensagemCompra
 
-    fun adicionarProduto(produto: Produto) {
-        val listaAtual = _itensCarrinho.value?.toMutableList() ?: mutableListOf()
-        val itemExistente = listaAtual.find { it.produtoId == produto.id }
-
-        if (itemExistente != null) {
-            val index = listaAtual.indexOf(itemExistente)
-            listaAtual[index] = itemExistente.copy(quantidade = itemExistente.quantidade + 1)
-        } else {
-            listaAtual.add(
-                CarrinhoItem(
-                    produtoId = produto.id,
-                    nome = produto.nome,
-                    price = produto.preco,
-                    imagem = 0,
-                    quantidade = 1
-                )
-            )
-        }
-
-        _itensCarrinho.value = listaAtual
-        calcularSubtotal()
-    }
-
-    fun removerProduto(item: CarrinhoItem) {
-        val listaAtual = _itensCarrinho.value?.toMutableList() ?: return
-        val itemEncontrado = listaAtual.find { it.produtoId == item.produtoId } ?: return
-
-        if (itemEncontrado.quantidade > 1) {
-            val index = listaAtual.indexOf(itemEncontrado)
-            listaAtual[index] = itemEncontrado.copy(quantidade = itemEncontrado.quantidade - 1)
-        } else {
-            listaAtual.remove(itemEncontrado)
-        }
-
-        _itensCarrinho.value = listaAtual
-        calcularSubtotal()
-    }
-
     fun aumentarQuantidade(item: CarrinhoItem) {
         val listaAtual = _itensCarrinho.value?.toMutableList() ?: return
         val itemEncontrado = listaAtual.find { it.produtoId == item.produtoId } ?: return
