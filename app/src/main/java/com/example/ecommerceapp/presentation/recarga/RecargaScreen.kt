@@ -62,7 +62,6 @@ fun RecargaScreen(
                             snackbarHostState.showSnackbar("Recarga realizada com sucesso!")
                         }
 
-                        navController.popBackStack()
                     } else {
                         scope.launch {
                             snackbarHostState.showSnackbar(
