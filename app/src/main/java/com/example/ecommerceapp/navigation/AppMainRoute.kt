@@ -24,6 +24,8 @@ import com.example.ecommerceapp.presentation.categoria.ProdutosPorCategoriaScree
 import com.example.ecommerceapp.presentation.components.AgiStoreHeader
 import com.example.ecommerceapp.presentation.components.BottomBar
 import com.example.ecommerceapp.presentation.detalhes.ProdutoDetalhesScreen
+import com.example.ecommerceapp.presentation.extrato.ExtratoSaldoScreen
+import com.example.ecommerceapp.presentation.favoritos.FavoritosScreen
 import com.example.ecommerceapp.presentation.historico.HistoricoScreen
 import com.example.ecommerceapp.presentation.home.HomeScreen
 import com.example.ecommerceapp.presentation.login.LoginScreen
@@ -124,10 +126,12 @@ fun AppMainRoute() {
             )
             { backStackEntry ->
                 val produto = backStackEntry.toRoute<Destination.Details>().produto
+
                 ProdutoDetalhesScreen(
                     produto = produto,
                     navController = navController,
                     carrinhoViewModel = carrinhoViewModel,
+                    usuarioViewModel = usuarioViewModel,
                     navigateBack = {
                         navController.popBackStack()
                         true
@@ -180,6 +184,19 @@ fun AppMainRoute() {
                     navController = navController
                 )
             }
+
+            composable<Destination.Extrato> {
+                ExtratoSaldoScreen(
+                    navController = navController
+                )
+            }
+
+            composable<Destination.Favoritos> {
+                FavoritosScreen(
+                    navController = navController,
+                    usuarioViewModel = usuarioViewModel
+                )
+            }
         }
 
     }
@@ -212,7 +229,13 @@ sealed interface Destination {
     data class Details(val produto: Produto) : Destination
 
     @Serializable
+    data object Extrato : Destination
+
+    @Serializable
     data object Carrinho : Destination
+
+    @Serializable
+    data object Favoritos : Destination
 
     @Serializable
     data object Historico : Destination

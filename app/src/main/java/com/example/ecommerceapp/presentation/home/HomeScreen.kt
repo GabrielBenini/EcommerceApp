@@ -135,7 +135,7 @@ fun HomeScreen(
                 horizontalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = "\uD83D\uDD25 Destaques",
+                    text = "Destaques",
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color(0xFF1E293B),

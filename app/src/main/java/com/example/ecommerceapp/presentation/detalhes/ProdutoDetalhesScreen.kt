@@ -1,21 +1,24 @@
 package com.example.ecommerceapp.presentation.detalhes
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBackIosNew
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -26,6 +29,7 @@ import com.example.ecommerceapp.model.Produto
 import com.example.ecommerceapp.navigation.Destination
 import com.example.ecommerceapp.presentation.carrinho.CarrinhoViewModel
 import com.example.ecommerceapp.presentation.detalhes.ProdutoDetalhesContract.Event.OnQtdProdutoChange
+import com.example.ecommerceapp.presentation.usuario.UsuarioViewModel
 import com.example.ecommerceapp.ui.theme.BlueAgi
 import com.example.ecommerceapp.ui.theme.Verde
 
@@ -35,18 +39,29 @@ fun ProdutoDetalhesScreen(
     produto: Produto,
     modifier: Modifier = Modifier,
     carrinhoViewModel: CarrinhoViewModel,
+    usuarioViewModel: UsuarioViewModel,
     navigateBack: () -> Boolean = { false },
     viewModel: ProdutoDetalhesViewModel = viewModel()
 ) {
     val state = viewModel.uiState.collectAsStateWithLifecycle()
+    val scrollState = rememberScrollState()
+
+    var isFavorito by remember { mutableStateOf(false) }
+
+    LaunchedEffect(produto.id) {
+        usuarioViewModel.verificarFavorito(produto.id) { isFav ->
+            isFavorito = isFav
+        }
+    }
 
     Column(
         modifier = modifier
             .fillMaxSize()
+            .verticalScroll(scrollState)
     ) {
 
         Surface(
-            modifier = modifier.height(250.dp),
+            modifier = Modifier.height(250.dp),
             color = Color(0xFFE2EFFF)
         ) {
             Row(
@@ -71,22 +86,32 @@ fun ProdutoDetalhesScreen(
 
                 FilledIconButton(
                     onClick = {
+                        usuarioViewModel.alternarFavorito(
+                            produto.id,
+                            mapOf(
+                                "id" to produto.id,
+                                "nome" to produto.nome,
+                                "imagemUrl" to produto.imagemUrl,
+                                "preco" to produto.preco,
+                                "descricao" to produto.descricao
+                            )
+                        )
+                        isFavorito = !isFavorito
                     },
                     colors = IconButtonDefaults.iconButtonColors(
                         containerColor = Color.White,
-                        contentColor = Color.Black
+                        contentColor = if (isFavorito) Color.Red else Color.Black
                     )
                 ) {
                     Icon(
-                        imageVector = Icons.Default.FavoriteBorder,
+                        imageVector = if (isFavorito) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
                         contentDescription = "Favoritar"
                     )
                 }
             }
 
             Column(
-                modifier = Modifier
-                    .fillMaxWidth(),
+                modifier = Modifier.fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
@@ -94,9 +119,7 @@ fun ProdutoDetalhesScreen(
                     model = produto.imagemUrl,
                     contentDescription = produto.nome,
                     contentScale = ContentScale.Fit,
-                    modifier = Modifier
-                        .size(220.dp)
-                        .padding(top = 16.dp)
+                    modifier = Modifier.size(220.dp)
                 )
             }
         }
@@ -133,18 +156,21 @@ fun ProdutoDetalhesScreen(
                 .padding(horizontal = 16.dp, vertical = 35.dp),
             colors = CardDefaults.cardColors(
                 containerColor = Color.LightGray.copy(alpha = 0.1f)
-            )
+            ),
+            shape = RoundedCornerShape(12.dp)
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
                 Text(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 8.dp),
                     text = "Descrição",
-                    fontWeight = FontWeight.SemiBold
+                    fontWeight = FontWeight.SemiBold,
+                    modifier = Modifier.padding(bottom = 8.dp)
                 )
-
-                Text(text = produto.descricao)
+                Text(
+                    text = produto.descricao,
+                    fontSize = 15.sp,
+                    textAlign = TextAlign.Justify,
+                    lineHeight = 22.sp
+                )
             }
         }
 
@@ -162,7 +188,9 @@ fun ProdutoDetalhesScreen(
         ) {
             IconButton(
                 onClick = {
-                    viewModel.handleEvent(OnQtdProdutoChange(state.value.qtdProduto - 1))
+                    viewModel.handleEvent(
+                        OnQtdProdutoChange(state.value.qtdProduto - 1)
+                    )
                 },
                 colors = IconButtonDefaults.iconButtonColors(
                     containerColor = Color.Gray.copy(alpha = 0.1f)
@@ -184,7 +212,9 @@ fun ProdutoDetalhesScreen(
 
             IconButton(
                 onClick = {
-                    viewModel.handleEvent(OnQtdProdutoChange(state.value.qtdProduto + 1))
+                    viewModel.handleEvent(
+                        OnQtdProdutoChange(state.value.qtdProduto + 1)
+                    )
                 },
                 colors = IconButtonDefaults.iconButtonColors(
                     containerColor = Color.Gray.copy(alpha = 0.1f)
@@ -203,7 +233,11 @@ fun ProdutoDetalhesScreen(
         Row(
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 30.dp)
         ) {
-            Text(text = "Total", fontSize = 24.sp)
+            Text(
+                text = "Total",
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Normal
+            )
             Spacer(Modifier.weight(1f))
             Text(
                 text = "R$ %.2f".format(state.value.qtdProduto * produto.preco),
@@ -223,7 +257,7 @@ fun ProdutoDetalhesScreen(
             shape = RoundedCornerShape(16.dp),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 16.dp, horizontal = 16.dp),
+                .padding(horizontal = 16.dp, vertical = 16.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color(BlueAgi.value)
             )
@@ -237,7 +271,6 @@ fun ProdutoDetalhesScreen(
                     imageVector = Icons.Default.ShoppingCart,
                     contentDescription = "Adicionar ao carrinho"
                 )
-
                 Text(
                     modifier = Modifier.padding(start = 9.dp),
                     text = "Adicionar ao Carrinho",
@@ -246,5 +279,7 @@ fun ProdutoDetalhesScreen(
                 )
             }
         }
+
+        Spacer(Modifier.height(24.dp))
     }
 }

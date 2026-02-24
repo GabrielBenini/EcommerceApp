@@ -138,7 +138,8 @@ fun PerfilScreen(
                     icon = Icons.Default.AttachMoney,
                     iconColor = Color(0xFF33D02F),
                     iconBackgroundColor = Color(0xFF33D02F).copy(alpha = 0.2f),
-                    text = "Extrato de Saldo"
+                    text = "Extrato de Saldo",
+                    onClick = { navController.navigate(Destination.Extrato) }
                 )
             }
 
@@ -147,7 +148,8 @@ fun PerfilScreen(
                     icon = Icons.Default.FavoriteBorder,
                     iconColor = Color(0xFFA530D2),
                     iconBackgroundColor = Color(0xFFA530D2).copy(alpha = 0.2f),
-                    text = "Favoritos"
+                    text = "Favoritos",
+                    onClick = { navController.navigate(Destination.Favoritos) }
                 )
             }
 
