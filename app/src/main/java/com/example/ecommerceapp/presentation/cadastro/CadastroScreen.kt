@@ -3,12 +3,19 @@ package com.example.ecommerceapp.presentation.cadastro
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -89,16 +96,49 @@ fun CadastroScreen(
             label = "Data de Nascimento"
         )
 
-        CadastroTextField(
+        var senhaVisivel by remember { mutableStateOf(false) }
+        var confirmacaoVisivel by remember { mutableStateOf(false) }
+
+        OutlinedTextField(
             value = state.senha,
             onValueChange = { viewModel.handleEvent(OnSenhaChange(it)) },
-            label = "Senha"
+            label = { Text("Senha") },
+            singleLine = true,
+            maxLines = 1,
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+            visualTransformation = if (senhaVisivel) VisualTransformation.None else PasswordVisualTransformation(),
+            trailingIcon = {
+                val icone =
+                    if (senhaVisivel) Icons.Default.VisibilityOff else Icons.Default.Visibility
+                val descricao = if (senhaVisivel) "Ocultar senha" else "Mostrar senha"
+                IconButton(onClick = { senhaVisivel = !senhaVisivel }) {
+                    Icon(icone, contentDescription = descricao)
+                }
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 8.dp)
         )
 
-        CadastroTextField(
+        OutlinedTextField(
             value = state.confirmacaoSenha,
             onValueChange = { viewModel.handleEvent(OnConfirmacaoSenhaChange(it)) },
-            label = "Confirmar Senha"
+            label = { Text("Confirmar Senha") },
+            singleLine = true,
+            maxLines = 1,
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+            visualTransformation = if (confirmacaoVisivel) VisualTransformation.None else PasswordVisualTransformation(),
+            trailingIcon = {
+                val icone =
+                    if (confirmacaoVisivel) Icons.Default.VisibilityOff else Icons.Default.Visibility
+                val descricao = if (confirmacaoVisivel) "Ocultar senha" else "Mostrar senha"
+                IconButton(onClick = { confirmacaoVisivel = !confirmacaoVisivel }) {
+                    Icon(icone, contentDescription = descricao)
+                }
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 8.dp)
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -250,7 +290,9 @@ fun CadastroScreen(
                     val nome = state.nomeCompleto
                     nomeUsuario = nome.ifEmpty { email.substringBefore("@") }
 
-                    val firebaseUserId = com.google.firebase.auth.FirebaseAuth.getInstance().currentUser?.uid ?: return@collect
+                    val firebaseUserId =
+                        com.google.firebase.auth.FirebaseAuth.getInstance().currentUser?.uid
+                            ?: return@collect
 
                     usuarioViewModel.fazerLogin(
                         userId = firebaseUserId,

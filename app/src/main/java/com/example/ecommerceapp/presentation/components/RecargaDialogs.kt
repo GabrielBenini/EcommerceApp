@@ -169,7 +169,7 @@ fun CartaoDialogBottomSheet(
                 contentColor = Color.White
             )
         ) {
-            Text("Confirmar pagamento")
+            Text("Cadastrar Cartão")
         }
 
         Spacer(Modifier.height(8.dp))
