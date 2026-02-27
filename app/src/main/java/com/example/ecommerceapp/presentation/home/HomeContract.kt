@@ -7,13 +7,10 @@ object HomeContract {
     )
 
     sealed class Event {
-
         data class OnSearchProductChange(val newSearch: String) : Event()
-
     }
 
     sealed class Effect {
-
     }
 
 }

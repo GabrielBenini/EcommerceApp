@@ -156,23 +156,6 @@ class UsuarioViewModel(application: Application) : AndroidViewModel(application)
         )
     }
 
-    fun escutarSaldoEmTempoReal() {
-        val userId = _usuarioId.value ?: return
-        firestore.collection("usuarios")
-            .document(userId)
-            .addSnapshotListener { snapshot, e ->
-                if (e != null) {
-                    e.printStackTrace()
-                    return@addSnapshotListener
-                }
-                if (snapshot != null && snapshot.exists()) {
-                    val saldoAtual = snapshot.getDouble("saldo") ?: 0.0
-                    _saldo.postValue(saldoAtual)
-                    userPrefs.salvarSaldo(userId, saldoAtual)
-                }
-            }
-    }
-
     fun alternarFavorito(produtoId: String, produtoData: Map<String, Any>) {
         val userId = _usuarioId.value ?: return
         val favoritoRef = firestore.collection("usuarios")

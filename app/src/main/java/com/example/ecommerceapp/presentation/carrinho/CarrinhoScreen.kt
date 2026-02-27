@@ -33,7 +33,6 @@ fun CarrinhoScreen(
     produtoViewModel: ProdutoViewModel,
     modifier: Modifier = Modifier
 ) {
-    val saldoUsuario by usuarioViewModel.saldo.observeAsState(0.0)
     val itensCarrinho by carrinhoViewModel.itensCarrinho.observeAsState(emptyList())
     val subtotal by carrinhoViewModel.subtotal.observeAsState(0.0)
     val mensagem by carrinhoViewModel.mensagemCompra.observeAsState()

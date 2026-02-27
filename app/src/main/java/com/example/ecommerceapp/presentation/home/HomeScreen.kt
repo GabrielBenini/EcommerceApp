@@ -59,13 +59,10 @@ fun HomeScreen(
     categoriaViewModel: CategoriaViewModel = viewModel()
 ) {
 
-    val produtos = produtoViewModel.filteredList.observeAsState(emptyList())
     val produtosLoading = produtoViewModel.isLoading.observeAsState(false)
     val categorias = categoriaViewModel.categoriaList.observeAsState(emptyList())
     val categoriasLoading = categoriaViewModel.isLoading.observeAsState(false)
-    val isGlobalLoading = produtosLoading.value || categoriasLoading.value
 
-    val searchQuery by produtoViewModel.searchQuery
     val filteredProducts by produtoViewModel.filteredList.observeAsState(emptyList())
 
     LaunchedEffect(Unit) {

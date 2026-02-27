@@ -15,7 +15,6 @@ import kotlinx.coroutines.launch
 class CadastroViewModel : ViewModel() {
 
     private val repository = UsuarioRepository()
-    val usuarioSalvo = MutableLiveData<Boolean>()
     private val auth = FirebaseAuth.getInstance()
 
     private val _uiState = MutableStateFlow(CadastroContract.State())

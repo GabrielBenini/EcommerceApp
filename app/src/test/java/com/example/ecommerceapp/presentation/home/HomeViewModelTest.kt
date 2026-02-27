@@ -1,8 +1,6 @@
-package com.example.ecommerceapp.presentation.Home
+package com.example.ecommerceapp.presentation.home
 
 
-import com.example.ecommerceapp.presentation.home.HomeContract
-import com.example.ecommerceapp.presentation.home.HomeViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals

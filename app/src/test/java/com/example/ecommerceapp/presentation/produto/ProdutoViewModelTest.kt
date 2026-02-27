@@ -31,7 +31,7 @@ class ProdutoViewModelTest {
     }
 
     @Test
-    fun `atualizarFiltro deve retornar todos quando busca vazia`() {
+    fun `atualizarFiltro should return all when the search is empty`() {
         val produtos = fakeProducts()
         viewModel.produtoList.value = produtos
         viewModel.searchQuery.value = ""
@@ -45,7 +45,7 @@ class ProdutoViewModelTest {
     }
 
     @Test
-    fun `atualizarFiltro deve filtrar corretamente`() {
+    fun `atualizarFiltro  should filter correctly`() {
         val produtos = fakeProducts()
         viewModel.produtoList.value = produtos
         viewModel.searchQuery.value = "note"
@@ -60,7 +60,7 @@ class ProdutoViewModelTest {
     }
 
     @Test
-    fun `atualizarFiltro deve ignorar case sensitive`() {
+    fun `atualizarFiltro should ignore case sensitive`() {
         val produtos = fakeProducts()
         viewModel.produtoList.value = produtos
         viewModel.searchQuery.value = "NOTE"
@@ -74,7 +74,7 @@ class ProdutoViewModelTest {
     }
 
     @Test
-    fun `atualizarFiltro deve ignorar espacos`() {
+    fun `atualizarFiltro should ignore spaces`() {
         val produtos = fakeProducts()
         viewModel.produtoList.value = produtos
         viewModel.searchQuery.value = "   mouse   "
