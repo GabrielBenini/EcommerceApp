@@ -93,7 +93,7 @@ fun HomeScreen(
                 color = Color(0xFF1E293B),
                 modifier = Modifier
                     .padding(bottom = 10.dp, start = 30.dp)
-                    .fillMaxWidth()
+                    .fillMaxWidth(),
             )
         }
 
